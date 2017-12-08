@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingTop="7dp"
+    android:paddingLeft="90dp"
+    android:gravity="center_vertical"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+<com.thinkcool.circletextimageview.CircleTextImageView
+    android:orientation="vertical"
+    android:id="@+id/create_circle"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
+    app:citv_border_color="@color/light_blue"
+    app:citv_border_width="7dp"
+    app:citv_text_text="我的圈子"
+    app:citv_text_size="24sp"
+    app:citv_text_padding="35dp"
+    app:citv_text_color="#1dfafa"
+    app:citv_fill_color="#fcfcfc" />
+</LinearLayout>

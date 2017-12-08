@@ -16,12 +16,11 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.legend.ffplan.R;
 import com.legend.ffplan.common.Bean.HomePlanBean;
 import com.legend.ffplan.common.adapter.HomePlanAdapter;
+import com.legend.ffplan.common.util.DateUtils;
 import com.legend.ffplan.common.viewimplement.ICommonView;
+import com.lilei.springactionmenu.ActionMenu;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,12 +34,10 @@ public class HomeFragment extends Fragment implements ICommonView {
     private View mView;
     private XRecyclerView mRecyclerView;
     private HomePlanAdapter adapter;
+    private ActionMenu actionMenu;
     private List<HomePlanBean> plan_list = new ArrayList<>();
-    private Date date = new Date();
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-    private String start_time = dateFormat.format(date);
-    private HomePlanBean[] homePlanBeans = {new HomePlanBean(start_time,"村声势浩大和你说的还能对你很好的汉莎安达的和你上次你说的不迪士尼的环境按时间","湖南信息职业技术学院"),
-            new HomePlanBean(start_time,"村声势浩大和你说的还能对你很好的汉莎安达的和你上次你说的不迪士尼的环境按时间","南县一中")};
+    private HomePlanBean[] homePlanBeans = {new HomePlanBean(DateUtils.getDate(),"村声势浩大和你说的还能对你很好的汉莎安达的和你上次你说的不迪士尼的环境按时间","湖南信息职业技术学院"),
+            new HomePlanBean(DateUtils.getDate(),"村声势浩大和你说的还能对你很好的汉莎安达的和你上次你说的不迪士尼的环境按时间","南县一中")};
 
     @Nullable
     @Override
@@ -56,6 +53,8 @@ public class HomeFragment extends Fragment implements ICommonView {
     }
     @Override
     public void initListener() {
+
+
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -79,7 +78,7 @@ public class HomeFragment extends Fragment implements ICommonView {
             public void run() {
                 plan_list.clear();
                 int i;
-                for (i = 0;i < 33;i++) {
+                for (i = 0;i < 20;i++) {
                     plan_list.add(homePlanBeans[0]);
                     plan_list.add(homePlanBeans[1]);
                 }
@@ -92,10 +91,11 @@ public class HomeFragment extends Fragment implements ICommonView {
     }
     @Override
     public void initView() {
+
         mRecyclerView = mView.findViewById(R.id.mRecyclerView);
         mRecyclerView.setPullRefreshEnabled(true);
         mRecyclerView.setLoadingMoreEnabled(true);
-        mRecyclerView.setFootViewText("正在玩命加载中...⌇●﹏●⌇","亲(o~.~o) 我也是有底线的哦");
+        mRecyclerView.setFootViewText("正在玩命加c载中...⌇●﹏●⌇","亲(o~.~o) 我也是有底线的哦");
         // 设置footview的最小高度 需要设置在导航栏上 否则会被遮盖
         mRecyclerView.getFootView().setMinimumHeight(400);
         mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
@@ -120,5 +120,9 @@ public class HomeFragment extends Fragment implements ICommonView {
                 adapter.notifyDataSetChanged();
             }
         },2000);
+    }
+
+    private int getItemColor(int colorID) {
+        return getResources().getColor(colorID);
     }
 }

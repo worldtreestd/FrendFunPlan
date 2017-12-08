@@ -15,6 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
+        android:layout_weight="1"
         app:cardBackgroundColor="#3e99e8"
         android:orientation="vertical"
         app:cardElevation="10dp">
@@ -45,6 +46,7 @@
         app:cardCornerRadius="10dp"
         app:cardBackgroundColor="#3e99e8"
         android:orientation="vertical"
+        android:layout_weight="1"
         app:cardElevation="10dp">
 
         <TextView
@@ -65,5 +67,4 @@
         android:text="↓下拉查看附近的圈子 !"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
 </LinearLayout>
