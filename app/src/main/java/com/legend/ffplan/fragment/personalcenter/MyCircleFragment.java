@@ -14,7 +14,8 @@ import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.legend.ffplan.R;
 import com.legend.ffplan.common.Bean.MyCircleBean;
-import com.legend.ffplan.common.adapter.MyCircleAdapter;
+import com.legend.ffplan.common.adapter.CircleListAdapter;
+import com.legend.ffplan.common.view.XRecyclerViewDivider;
 import com.legend.ffplan.common.viewimplement.ICommonView;
 
 import java.util.ArrayList;
@@ -30,10 +31,10 @@ public class MyCircleFragment extends Fragment implements ICommonView{
 
     private View mView;
     private XRecyclerView mRecyclerView;
-    private MyCircleAdapter adapter;
+    private CircleListAdapter adapter;
     private List<MyCircleBean> circleList = new ArrayList<>();
-    private MyCircleBean[] CircleBeans = {new MyCircleBean("世界树项目组"),
-                                         new MyCircleBean("Coding之路")};
+    private MyCircleBean[] CircleBeans = {new MyCircleBean(R.mipmap.ic_launcher_round,"世界树项目组","我们不做软件只做创意"),
+            new MyCircleBean(R.drawable.sun,"Github","既然不能改变世界 那就让世界变得更加美好")};
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,9 +58,10 @@ public class MyCircleFragment extends Fragment implements ICommonView{
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setSmoothScrollbarEnabled(true);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
-        adapter = new MyCircleAdapter(circleList);
+        adapter = new CircleListAdapter(circleList);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
+        mRecyclerView.addItemDecoration(new XRecyclerViewDivider(mView.getContext(),LinearLayoutManager.HORIZONTAL));
     }
 
     @Override

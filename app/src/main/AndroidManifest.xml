@@ -20,8 +20,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"/>
+        <!--防止软键盘挡住输入框-->
+        <activity android:name=".activity.CircleContentActivity"
+            android:windowSoftInputMode="adjustResize"
+                  android:theme="@style/CircleCenterTheme">
+        </activity>
         <activity android:name=".activity.CreateCircleActivity"></activity>
         <activity android:name=".activity.ReleasePlanActivity"></activity>
+        <activity android:name=".activity.PlanContentActivity"/>
     <activity android:name=".GuideAnimation.WoWoActivity"/>
     </application>
 

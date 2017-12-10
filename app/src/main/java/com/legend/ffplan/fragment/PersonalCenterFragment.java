@@ -102,17 +102,17 @@ public class PersonalCenterFragment extends Fragment implements IPersonalCenter{
         mViewPager.setCurrentItem(position);
         switch (position) {
             case 0:
-                mycircle.setBackground(getResources().getDrawable(R.color.colorAccent));
+                mycircle.setBackground(getResources().getDrawable(R.color.green));
                 backlog.setBackground(getResources().getDrawable(R.color.unselected));
                 finishedtask.setBackground(getResources().getDrawable(R.color.unselected));
                 break;
             case 1:
-                backlog.setBackground(getResources().getDrawable(R.color.colorAccent));
+                backlog.setBackground(getResources().getDrawable(R.color.green));
                 mycircle.setBackground(getResources().getDrawable(R.color.unselected));
                 finishedtask.setBackground(getResources().getDrawable(R.color.unselected));
                 break;
             case 2:
-                finishedtask.setBackground(getResources().getDrawable(R.color.colorAccent));
+                finishedtask.setBackground(getResources().getDrawable(R.color.green));
                 backlog.setBackground(getResources().getDrawable(R.color.unselected));
                 mycircle.setBackground(getResources().getDrawable(R.color.unselected));
                 break;

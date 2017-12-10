@@ -51,7 +51,8 @@
             android:gravity="center"
             android:background="@drawable/shape"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            app:biu_text_color="#28e9ec"/>
 
 
 

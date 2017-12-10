@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="6dp"
+    android:id="@+id/circle_item"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.thinkcool.circletextimageview.CircleTextImageView
+        android:orientation="vertical"
+        android:id="@+id/create_circle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        app:citv_border_color="@color/light_blue"
+        app:citv_border_width="2dp"
+        app:citv_text_text="友趣计划"
+        app:citv_text_size="18sp"
+        app:citv_text_padding="35dp"
+        app:citv_text_color="#1dfafa"
+        app:citv_fill_color="#fcfcfc" />
+
+    <TextView
+        android:id="@+id/circle_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="17dp"
+        android:layout_toEndOf="@+id/create_circle"
+        android:text="世界树项目组"
+        android:textColor="@color/black"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/circle_introduce"
+        android:textSize="16sp"
+        android:paddingLeft="15dp"
+        android:layout_marginBottom="6dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/create_circle"
+        android:layout_toEndOf="@+id/create_circle"
+        android:text="不能改变世界那就让世界变得更加美好" />
+
+</RelativeLayout>

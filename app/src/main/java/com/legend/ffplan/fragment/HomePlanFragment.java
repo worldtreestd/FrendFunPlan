@@ -1,4 +1,4 @@
-package com.legend.ffplan.fragment.personalcenter;
+package com.legend.ffplan.fragment;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
@@ -17,79 +18,59 @@ import com.legend.ffplan.common.Bean.HomePlanBean;
 import com.legend.ffplan.common.adapter.PlanListAdapter;
 import com.legend.ffplan.common.util.DateUtils;
 import com.legend.ffplan.common.viewimplement.ICommonView;
+import com.lilei.springactionmenu.ActionMenu;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author Legend
- * @data by on 2017/12/3.
- * @description
+ * @data by on 2017/11/30.
+ * @description 全部计划列表页面
  */
 
-public class FinishedTaskFragment extends Fragment implements ICommonView {
+public class HomePlanFragment extends Fragment implements ICommonView {
 
     private View mView;
     private XRecyclerView mRecyclerView;
     private PlanListAdapter adapter;
+    private ActionMenu actionMenu;
     private List<HomePlanBean> plan_list = new ArrayList<>();
     private HomePlanBean[] homePlanBeans = {new HomePlanBean(DateUtils.getDate(),"村声势浩大和你说的还能对你很好的汉莎安达的和你上次你说的不迪士尼的环境按时间","湖南信息职业技术学院"),
             new HomePlanBean(DateUtils.getDate(),"村声势浩大和你说的还能对你很好的汉莎安达的和你上次你说的不迪士尼的环境按时间","南县一中")};
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+
         if (mView == null) {
-            mView = inflater.inflate(R.layout.finishedtask_layout,container,false);
+            mView = inflater.inflate(R.layout.home_layout,container,false);
         }
         initData();
         initView();
         initListener();
         return mView;
     }
-
-    @Override
-    public void initView() {
-        mRecyclerView = mView.findViewById(R.id.mRecyclerView);
-        mRecyclerView.setPullRefreshEnabled(true);
-        mRecyclerView.setLoadingMoreEnabled(true);
-        mRecyclerView.getFootView().setMinimumHeight(400);
-        mRecyclerView.setFootViewText("正在玩命加c载中...⌇●﹏●⌇","亲(o~.~o) 我也是有底线的哦");
-        adapter = new PlanListAdapter(plan_list);
-        LinearLayoutManager manager = new LinearLayoutManager(mView.getContext());
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(adapter);
-    }
-
     @Override
     public void initListener() {
+
+
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallRotate);
+                mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
                 initData();
                 mRecyclerView.refreshComplete();
             }
 
             @Override
             public void onLoadMore() {
-                mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallZigZag);
+
+                mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallClipRotateMultiple);
                 loadMoreData();
+
             }
         });
-    }
-    private void initData() {
-        plan_list.clear();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                for (int i = 0;i < 10;i++) {
-                    plan_list.add(homePlanBeans[0]);
-                    plan_list.add(homePlanBeans[1]);
-                }
-                adapter.notifyDataSetChanged();
-            }
-        },2000);
     }
     private void loadMoreData() {
         new Handler().postDelayed(new Runnable() {
@@ -97,7 +78,7 @@ public class FinishedTaskFragment extends Fragment implements ICommonView {
             public void run() {
                 plan_list.clear();
                 int i;
-                for (i = 0;i < 33;i++) {
+                for (i = 0;i < 20;i++) {
                     plan_list.add(homePlanBeans[0]);
                     plan_list.add(homePlanBeans[1]);
                 }
@@ -107,5 +88,41 @@ public class FinishedTaskFragment extends Fragment implements ICommonView {
                 mRecyclerView.setNoMore(true);
             }
         },2000);
+    }
+    @Override
+    public void initView() {
+
+        mRecyclerView = mView.findViewById(R.id.mRecyclerView);
+        mRecyclerView.setPullRefreshEnabled(true);
+        mRecyclerView.setLoadingMoreEnabled(true);
+        mRecyclerView.setFootViewText("正在玩命加c载中...⌇●﹏●⌇","亲(o~.~o) 我也是有底线的哦");
+        // 设置footview的最小高度 需要设置在导航栏上 否则会被遮盖
+        mRecyclerView.getFootView().setMinimumHeight(400);
+        mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallSpinFadeLoader);
+        mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallGridBeat);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mView.getContext());
+        linearLayoutManager.setOrientation(LinearLayout.VERTICAL);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        adapter = new PlanListAdapter(plan_list);
+        mRecyclerView.setAdapter(adapter);
+
+    }
+    private void initData() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                plan_list.clear();
+                for (int i = 0;i < 10;i++) {
+                    plan_list.add(homePlanBeans[0]);
+                    plan_list.add(homePlanBeans[1]);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        },2000);
+    }
+
+    private int getItemColor(int colorID) {
+        return getResources().getColor(colorID);
     }
 }

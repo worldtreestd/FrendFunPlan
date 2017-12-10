@@ -4,8 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.legend.ffplan.fragment.HomeFragment;
-import com.legend.ffplan.fragment.JoinPlanFragment;
+import com.legend.ffplan.fragment.HomePlanFragment;
+import com.legend.ffplan.fragment.HomeCircleFragment;
 import com.legend.ffplan.fragment.PersonalCenterFragment;
 
 import java.util.ArrayList;
@@ -24,11 +24,11 @@ public class MainFragmentAdapter extends FragmentPagerAdapter{
     public MainFragmentAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
         mFragments = new ArrayList<>();
-        Fragment homeFragment = new HomeFragment();
-        Fragment joinPlanFragment = new JoinPlanFragment();
+        Fragment homeCircleFragment = new HomeCircleFragment();
+        Fragment homePlanFragment = new HomePlanFragment();
         PersonalCenterFragment personalCenterFragment = new PersonalCenterFragment();
-        mFragments.add(homeFragment);
-        mFragments.add(joinPlanFragment);
+        mFragments.add(homeCircleFragment);
+        mFragments.add(homePlanFragment);
         mFragments.add(personalCenterFragment);
     }
 

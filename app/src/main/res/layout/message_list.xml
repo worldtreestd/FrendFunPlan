@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp" >
+
+    <LinearLayout
+        android:id="@+id/left_layout"
+        android:layout_gravity="left"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <com.thinkcool.circletextimageview.CircleTextImageView
+            android:id="@+id/me_image"
+            android:background="@drawable/sun"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="3dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/me_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/message_left"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/left_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:textColor="#fff" />
+
+        </LinearLayout>
+    </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/right_layout"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.thinkcool.circletextimageview.CircleTextImageView
+            android:id="@+id/other_user_image"
+            android:background="@mipmap/ic_launcher"
+            android:layout_alignParentRight="true"
+            android:layout_width="45dp"
+            android:layout_height="45dp" />
+
+        <TextView
+            android:id="@+id/my_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/other_user_image"
+            android:text="@string/app_name" />
+
+
+        <LinearLayout
+            android:id="@+id/a"
+            android:layout_margin="5dp"
+            android:layout_below="@+id/my_name"
+            android:layout_toLeftOf="@+id/other_user_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/message_right">
+
+            <TextView
+                android:id="@+id/right_msg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:textColor="#28e9ec" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

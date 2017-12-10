@@ -8,6 +8,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
     </style>
 
 
@@ -19,6 +20,15 @@
         <item name="android:gravity">center</item>
         <item name="android:layout_alignParentBottom">true</item>
         <item name="android:text">"0"</item>
+    </style>
+
+    <!--tabLayout每个Item的字体大小-->
+    <style name="TabTextSize" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="CircleCenterTheme">
+        parent="AppTheme"
     </style>
 
 </resources>

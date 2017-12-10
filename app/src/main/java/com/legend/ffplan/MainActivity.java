@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements ICommonView {
     private MainFragmentAdapter mainFragmentAdapter;
     private ViewPager mViewPager;
     private BottomNavigationView navigation;
-    private Toolbar toolar;
+    private Toolbar toolbar;
     private View mView;
     private ActionMenu actionMenu;
 
@@ -131,9 +131,9 @@ public class MainActivity extends AppCompatActivity implements ICommonView {
     }
     @Override
     public void initView() {
-        toolar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolar);
-        toolar.setSubtitle("让你的计划不再枯燥");
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.setSubtitle("让你的计划不再枯燥");
         mViewPager = findViewById(R.id.mViewPager);
         if (actionMenu == null) {
             actionMenu = mView.findViewById(R.id.float_button);
@@ -230,5 +230,11 @@ public class MainActivity extends AppCompatActivity implements ICommonView {
     }
     private int getItemColor(int colorID) {
         return getResources().getColor(colorID);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        actionMenu = null;
     }
 }

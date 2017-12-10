@@ -1,6 +1,7 @@
 package com.legend.ffplan.common.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.legend.ffplan.R;
+import com.legend.ffplan.activity.PlanContentActivity;
 import com.legend.ffplan.common.Bean.HomePlanBean;
 
 import java.util.List;
@@ -16,10 +18,10 @@ import java.util.List;
 /**
  * @author Legend
  * @data by on 2017/11/30.
- * @description 主页计划列表适配器
+ * @description 计划列表适配器
  */
 
-public class HomePlanAdapter extends RecyclerView.Adapter<HomePlanAdapter.ViewHolder>{
+public class PlanListAdapter extends RecyclerView.Adapter<PlanListAdapter.ViewHolder>{
 
     private Context mContext;
     private List<HomePlanBean> mHomePlanList;
@@ -38,7 +40,7 @@ public class HomePlanAdapter extends RecyclerView.Adapter<HomePlanAdapter.ViewHo
             mPlan_Content = view.findViewById(R.id.plan_content);
         }
     }
-    public HomePlanAdapter(List<HomePlanBean> PlanList) {
+    public PlanListAdapter(List<HomePlanBean> PlanList) {
         this.mHomePlanList = PlanList;
     }
 
@@ -48,7 +50,20 @@ public class HomePlanAdapter extends RecyclerView.Adapter<HomePlanAdapter.ViewHo
             mContext = parent.getContext();
         }
         View view = LayoutInflater.from(mContext).inflate(R.layout.common_list,parent,false);
-        return new ViewHolder(view);
+        final ViewHolder holder = new ViewHolder(view);
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = holder.getAdapterPosition()-1;
+                HomePlanBean mPlanBeans = mHomePlanList.get(position);
+                Intent intent = new Intent(mContext,PlanContentActivity.class);
+                intent.putExtra(PlanContentActivity.PLAN_START_TIME,mPlanBeans.getStartTime());
+                intent.putExtra(PlanContentActivity.PLAN_CONTENT,mPlanBeans.getContent());
+                intent.putExtra(PlanContentActivity.PLAN_FROM,mPlanBeans.getFrom());
+                mContext.startActivity(intent);
+            }
+        });
+        return holder;
     }
 
     @Override

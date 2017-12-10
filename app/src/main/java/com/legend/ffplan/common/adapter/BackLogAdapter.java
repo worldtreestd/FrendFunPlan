@@ -13,10 +13,10 @@ import java.util.List;
 /**
  * @author Legend
  * @data by on 2017/12/5.
- * @description
+ * @description 待办事项适配器
  */
 
-public class BackLogAdapter extends HomePlanAdapter {
+public class BackLogAdapter extends PlanListAdapter {
     private Context mContext;
     public BackLogAdapter(List<HomePlanBean> PlanList) {
         super(PlanList);

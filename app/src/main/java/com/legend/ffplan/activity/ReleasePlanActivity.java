@@ -65,6 +65,11 @@ public class ReleasePlanActivity extends AppCompatActivity implements ICommonVie
                 new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        /**
+                         *  这里设置失去聚焦 因为biuEditText是通过反射来获取
+                         *  光标位置 在initView里面设置会导致直接失去光标
+                         *  进而引起空指针异常
+                         */
                         set_date_end.setFocusable(false);
                         set_date_end.setText(String.format("%d--%d--%d",i,i1,i2).toString());
                     }
