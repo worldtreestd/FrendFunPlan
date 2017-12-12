@@ -1,5 +1,6 @@
 package com.legend.ffplan.fragment.circlecenter;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -37,11 +38,10 @@ public class CircleConversationFragment extends Fragment implements ICommonView{
     private BiuEditText input_message;
     private CircleMessageAdapter adapter;
     private List<MessageBean> messageBeanList = new ArrayList<>();
-    private MessageBean[] messageList = new MessageBean[]{
-            new MessageBean("what is your name？",MessageBean.OTHER_SEND),
-            new MessageBean("My name is Legend.",MessageBean.SELF_SEND),
-            new MessageBean("what are you doing？",MessageBean.OTHER_SEND),
-            new MessageBean("I am Coding,and you?",MessageBean.SELF_SEND)};
+    private MessageBean[] messageList;
+    private String username;
+    private String user_image_url;
+
     @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     @Nullable
     @Override
@@ -77,7 +77,7 @@ public class CircleConversationFragment extends Fragment implements ICommonView{
             public void onClick(View view) {
                 String content = input_message.getText().toString();
                 if (!"".equals(content)) {
-                    MessageBean messageBean = new MessageBean(content,MessageBean.SELF_SEND);
+                    MessageBean messageBean = new MessageBean(content,MessageBean.SELF_SEND,user_image_url,username);
                     messageBeanList.add(messageBean);
                     // 当有新消息时刷新并定位到最后一行
                     mRecyclerView.scrollToPosition(messageBeanList.size() - 1);
@@ -87,6 +87,14 @@ public class CircleConversationFragment extends Fragment implements ICommonView{
         });
     }
     private void initData() {
+        Intent intent = getActivity().getIntent();
+        username = intent.getStringExtra(MessageBean.USER_NAME);
+        user_image_url = intent.getStringExtra(MessageBean.USER_IMAGE_URL);
+        messageList = new MessageBean[]{
+                new MessageBean("what is your name？",MessageBean.OTHER_SEND),
+                new MessageBean("My name is Legend.",MessageBean.SELF_SEND,user_image_url,username),
+                new MessageBean("what are you doing？",MessageBean.OTHER_SEND),
+                new MessageBean("I am Coding,and you?",MessageBean.SELF_SEND,user_image_url,username)};
         for (int i = 0;i < 5;i++) {
             messageBeanList.add(messageList[0]);
             messageBeanList.add(messageList[1]);

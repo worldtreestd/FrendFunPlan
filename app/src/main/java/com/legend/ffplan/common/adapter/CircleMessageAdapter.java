@@ -9,9 +9,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.legend.ffplan.R;
 import com.legend.ffplan.common.Bean.MessageBean;
+import com.thinkcool.circletextimageview.CircleTextImageView;
 
 import java.util.List;
 
@@ -39,6 +41,10 @@ public class CircleMessageAdapter extends XRecyclerView.Adapter<CircleMessageAda
     public void onBindViewHolder(ViewHolder holder, int position) {
         MessageBean messageBean = mMessageList.get(position);
         if (messageBean.getType() == MessageBean.SELF_SEND) {
+            holder.user_name.setText(messageBean.getUser_name());
+            Glide.with(mContext).load(messageBean.getUser_image_url())
+                    .error(R.mipmap.ic_launcher_round)
+                    .into(holder.me_image);
             holder.left_message.setVisibility(View.GONE);
             holder.right_message.setVisibility(View.VISIBLE);
             holder.right_text.setText(messageBean.getContent());
@@ -60,6 +66,8 @@ public class CircleMessageAdapter extends XRecyclerView.Adapter<CircleMessageAda
         RelativeLayout right_message;
         TextView left_text;
         TextView right_text;
+        TextView user_name;
+        CircleTextImageView me_image;
 
         @SuppressLint("WrongViewCast")
         public ViewHolder(View itemView) {
@@ -68,6 +76,8 @@ public class CircleMessageAdapter extends XRecyclerView.Adapter<CircleMessageAda
             right_message = itemView.findViewById(R.id.right_layout);
             left_text = itemView.findViewById(R.id.left_msg);
             right_text = itemView.findViewById(R.id.right_msg);
+            user_name = itemView.findViewById(R.id.my_name);
+            me_image = itemView.findViewById(R.id.me_image);
         }
     }
     public CircleMessageAdapter(List<MessageBean> mMessageList) {

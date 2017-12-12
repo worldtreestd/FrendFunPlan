@@ -41,6 +41,7 @@ public abstract class WoWoActivity extends AppCompatActivity {
     protected int screenW;
     protected int screenH;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

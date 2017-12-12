@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * @author Legend
  * @data by on 2017/12/5.
- * @description 时间工具类
+ * @description 时间日期工具类
  */
 
 public class DateUtils {

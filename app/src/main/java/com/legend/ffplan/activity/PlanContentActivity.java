@@ -20,7 +20,7 @@ import com.legend.ffplan.common.viewimplement.ICommonView;
 /**
  * @author Legend
  * @data by on 2017/12/10.
- * @description
+ * @description 计划详情界面
  */
 
 public class PlanContentActivity extends AppCompatActivity implements ICommonView {

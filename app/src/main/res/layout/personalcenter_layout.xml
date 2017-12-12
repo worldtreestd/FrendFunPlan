@@ -11,11 +11,15 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <de.hdodenhof.circleimageview.CircleImageView
+        <com.thinkcool.circletextimageview.CircleTextImageView
+            android:id="@+id/user_image"
             android:textDirection="firstStrong"
-            android:src="@drawable/cloud_blue"
-            android:layout_width="80dp"
-            android:layout_height="80dp" />
+            android:src="@mipmap/ic_launcher_round"
+
+            app:citv_border_width="2dp"
+            app:citv_border_color="@color/green"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
 
         <LinearLayout
             android:layout_marginLeft="50dp"
@@ -24,6 +28,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/nick_name"
                 android:text="用户名"
                 android:textSize="30sp"
                 android:layout_width="wrap_content"
@@ -32,14 +37,14 @@
                 android:id="@+id/logout"
                 android:layout_marginTop="15dp"
                 android:text="退出登录！"
-                android:textSize="20sp"
+                android:textSize="17sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
 
         <TextView
-            android:text="专业占位"
+            android:text="专占位"
             android:layout_marginLeft="50dp"
             android:background="@drawable/shape"
             android:layout_width="40dp"

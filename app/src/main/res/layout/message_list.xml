@@ -3,7 +3,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp" >
+    android:padding="8dp" >
 
     <LinearLayout
         android:id="@+id/left_layout"
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content">
 
         <com.thinkcool.circletextimageview.CircleTextImageView
-            android:id="@+id/me_image"
+            android:id="@+id/other_user_image"
             android:background="@drawable/sun"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -55,25 +55,25 @@
         android:layout_height="match_parent">
 
         <com.thinkcool.circletextimageview.CircleTextImageView
-            android:id="@+id/other_user_image"
-            android:background="@mipmap/ic_launcher"
+            android:id="@+id/me_image"
+            android:src="@mipmap/ic_launcher"
             android:layout_alignParentRight="true"
             android:layout_width="45dp"
             android:layout_height="45dp" />
 
         <TextView
+            android:paddingRight="6dp"
             android:id="@+id/my_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toStartOf="@+id/other_user_image"
+            android:layout_toStartOf="@+id/me_image"
             android:text="@string/app_name" />
 
 
         <LinearLayout
-            android:id="@+id/a"
             android:layout_margin="5dp"
             android:layout_below="@+id/my_name"
-            android:layout_toLeftOf="@+id/other_user_image"
+            android:layout_toLeftOf="@+id/me_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/message_right">

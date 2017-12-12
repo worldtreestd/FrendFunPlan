@@ -8,7 +8,7 @@ import java.io.FileOutputStream;
 /**
  * @author Legend
  * @data by on 2017/12/8.
- * @description
+ * @description 图片处理工具类
  */
 
 public class ImageUtils {

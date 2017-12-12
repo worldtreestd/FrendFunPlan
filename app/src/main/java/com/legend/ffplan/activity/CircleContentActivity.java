@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.legend.ffplan.R;
 import com.legend.ffplan.common.adapter.CircleFragmentAdapter;
 import com.legend.ffplan.common.viewimplement.ICommonView;
@@ -19,7 +20,7 @@ import com.legend.ffplan.common.viewimplement.ICommonView;
 /**
  * @author Legend
  * @data by on 2017/12/9.
- * @description 圈子主界面
+ * @description 圈子详情界面
  */
 
 public class CircleContentActivity extends AppCompatActivity implements ICommonView {
@@ -71,7 +72,7 @@ public class CircleContentActivity extends AppCompatActivity implements ICommonV
 
         circle_image = findViewById(R.id.circle_content_image);
 
-        circle_image.setImageResource(circle_image_id);
+        Glide.with(this).load(circle_image_id).into(circle_image);
 
         tabLayout = findViewById(R.id.tab_layout);
         mViewPager = findViewById(R.id.mViewPager);

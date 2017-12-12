@@ -1,16 +1,21 @@
 package com.legend.ffplan.GuideAnimation;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.legend.ffplan.MainActivity;
 import com.legend.ffplan.R;
+import com.legend.ffplan.common.Bean.MessageBean;
 import com.nightonke.wowoviewpager.Animation.WoWoAlphaAnimation;
 import com.nightonke.wowoviewpager.Animation.WoWoElevationAnimation;
 import com.nightonke.wowoviewpager.Animation.WoWoPathAnimation;
@@ -22,21 +27,34 @@ import com.nightonke.wowoviewpager.Animation.WoWoTextViewTextAnimation;
 import com.nightonke.wowoviewpager.Animation.WoWoTranslationAnimation;
 import com.nightonke.wowoviewpager.Enum.Ease;
 import com.nightonke.wowoviewpager.WoWoPathView;
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.common.Constants;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
+
+import org.json.JSONObject;
 
 /**
  * @author HP
  */
-public class GuidePageActivity2 extends WoWoActivity {
+public class GuidePageActivity extends WoWoActivity {
+
+    public static Tencent mTencent;
+    public static UserInfo userInfo;
+    public static int APP_ID = 222222;
+    private String token;
+    private String openId;
 
     private int r;
     private boolean animationAdded = false;
     private ImageView targetPlanet;
     private View loginLayout;
-    private Button button;
+    private Button login_button;
 
     @Override
     protected int contentViewRes() {
-        return R.layout.activity_guide_page2;
+        return R.layout.activity_guide_page;
     }
 
     @Override
@@ -56,32 +74,190 @@ public class GuidePageActivity2 extends WoWoActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        switchIntent();
         super.onCreate(savedInstanceState);
-
         r = (int) Math.sqrt(screenW * screenW + screenH * screenH) + 10;
 
         ImageView earth = (ImageView) findViewById(R.id.earth);
         targetPlanet = (ImageView) findViewById(R.id.planet_target);
         loginLayout = findViewById(R.id.login_layout);
-        button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        login_button = findViewById(R.id.button);
+        mTencent = Tencent.createInstance(String.valueOf(APP_ID),getApplicationContext());
+
+        login_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(GuidePageActivity2.this, MainActivity.class);
-                startActivity(intent);
+                if (!mTencent.isSessionValid()) {
+                    mTencent.login(GuidePageActivity.this, "all", loginListener);
+
+                } else {
+                    mTencent.logout(GuidePageActivity.this);
+                    mTencent.login(GuidePageActivity.this, "all", loginListener);
+                    return;
+                }
             }
         });
         earth.setY(screenH / 2);
         targetPlanet.setY(-screenH / 2 - screenW / 2);
         targetPlanet.setScaleX(0.25f);
         targetPlanet.setScaleY(0.25f);
-
+        tokenlogin();
         wowo.addTemporarilyInvisibleViews(0, earth, findViewById(R.id.cloud_blue), findViewById(R.id.cloud_red));
         wowo.addTemporarilyInvisibleViews(0, targetPlanet);
         wowo.addTemporarilyInvisibleViews(2, loginLayout, findViewById(R.id.button));
     }
 
+    /**
+     *  使用token自动登录
+     */
+    private void tokenlogin() {
+        SharedPreferences sharedPreferences = getSharedPreferences("cookie",MODE_PRIVATE);
+        token = sharedPreferences.getString("token",null);
+        openId = sharedPreferences.getString("openId",null);
+        String expires = sharedPreferences.getString("expires",null);
+        if ( token != null &&  openId != null && expires != null) {
+            mTencent.setAccessToken(token, expires);
+            mTencent.setOpenId(openId);
+            userInfo = new UserInfo(GuidePageActivity.this,mTencent.getQQToken());
+            userInfo.getUserInfo(userInfoListener);
+        }
+    }
+    public void initOpenidAndToken(JSONObject jsonObject) {
+        try {
+            token = jsonObject.getString(Constants.PARAM_ACCESS_TOKEN);
+            String expires = jsonObject.getString(Constants.PARAM_EXPIRES_IN);
+            openId = jsonObject.getString(Constants.PARAM_OPEN_ID);
+            if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(expires)
+                    && !TextUtils.isEmpty(openId)) {
+                mTencent.setAccessToken(token, expires);
+                mTencent.setOpenId(openId);
+                /**
+                 *  第一次登录时保持token
+                 */
+                SharedPreferences sharedPreferences = getSharedPreferences("cookie",MODE_PRIVATE);
+                sharedPreferences.edit().putString("token",token)
+                        .putString("openId",openId)
+                        .putString("expires",expires).commit();
+                userInfo = new UserInfo(GuidePageActivity.this,mTencent.getQQToken());
+                userInfo.getUserInfo(userInfoListener);
+            }
+        } catch(Exception e) {
+        }
+    }
+    public IUiListener loginListener = new BaseUiListener() {
+        @Override
+        protected void doComplete(JSONObject jsonObject) {
+            super.doComplete(jsonObject);
+            initOpenidAndToken(jsonObject);
+        }
+    };
+    IUiListener userInfoListener = new IUiListener() {
+
+        @Override
+        public void onError(UiError arg0) {
+            // TODO Auto-generated method stub
+
+        }
+        @Override
+        public void onComplete(Object arg0) {
+            // TODO Auto-generated method stub
+            if(arg0 == null){
+                return;
+            }
+            try {
+                JSONObject jo = (JSONObject) arg0;
+                int ret = jo.getInt("ret");
+                System.out.println("json=" + String.valueOf(jo));
+                final String nickName = jo.getString("nickname");
+                String gender = jo.getString("gender");
+                String qq_image = jo.getString("figureurl_qq_2");
+                Intent intent = new Intent();
+                intent.putExtra(MessageBean.USER_NAME,nickName);
+                intent.putExtra(MessageBean.USER_IMAGE_URL,qq_image);
+                intent.putExtra("TOKEN",token);
+                intent.putExtra("OPENID",openId);
+                intent.setClass(GuidePageActivity.this, MainActivity.class);
+                startActivity(intent);
+                Toast.makeText(GuidePageActivity.this, "亲爱的【" + nickName+"】你好 欢迎来到这里",
+                        Toast.LENGTH_LONG).show();
+
+            } catch (Exception e) {
+                // TODO: handle exception
+            }
+
+
+        }
+
+        @Override
+        public void onCancel() {
+            // TODO Auto-generated method stub
+
+        }
+    };
+
+    //QQ登录后的回调
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("TAG", "-->onActivityResult " + requestCode  + " resultCode=" + resultCode);
+        if (requestCode == Constants.REQUEST_LOGIN ||
+                requestCode == Constants.REQUEST_APPBAR) {
+            Tencent.onActivityResultData(requestCode,resultCode,data,loginListener);
+
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private class BaseUiListener implements IUiListener {
+
+        @Override
+        public void onComplete(Object response) {
+            if (null == response ) {
+                Toast.makeText(GuidePageActivity.this,"返回为空 登录失败",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            JSONObject jsonObject = (JSONObject) response;
+            if (response != null && jsonObject.length() == 0) {
+                Toast.makeText(GuidePageActivity.this,"返回为空 登录失败",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Toast.makeText(GuidePageActivity.this,"登录成功",Toast.LENGTH_SHORT).show();
+            doComplete((JSONObject) response);
+        }
+
+
+        @Override
+        public void onError(UiError uiError) {
+
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+        // 提供回调的方法
+        protected void doComplete(JSONObject jsonObject) {
+
+        }
+    }
+
+    /**
+     *  退出程序
+     */
+    private void switchIntent() {
+        String s = getIntent().getStringExtra("exit");
+        if (!TextUtils.isEmpty(s)) {
+            int id = Integer.parseInt(s);
+            switch (id) {
+                case 0:
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                    System.exit(0);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);

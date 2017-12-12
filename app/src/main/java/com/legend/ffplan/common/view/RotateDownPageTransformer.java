@@ -1,8 +1,11 @@
 package com.legend.ffplan.common.view;
 
 /**
- * Created by HP on 2017/10/13.
+ * @author Legend
+ * @data by on 2017/12/1.
+ * @description ViewPager滑动动画
  */
+
 
 import android.support.v4.view.ViewPager;
 import android.util.Log;

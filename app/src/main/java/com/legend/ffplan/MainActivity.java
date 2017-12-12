@@ -11,6 +11,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.legend.ffplan.GuideAnimation.GuidePageActivity;
 import com.legend.ffplan.activity.CreateCircleActivity;
 import com.legend.ffplan.activity.ReleasePlanActivity;
 import com.legend.ffplan.common.adapter.MainFragmentAdapter;
@@ -206,6 +208,23 @@ public class MainActivity extends AppCompatActivity implements ICommonView {
             }
         });
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            Snackbar.make(mView, "亲 您不想再多看一会儿了吗？", Snackbar.LENGTH_LONG).setAction("确定", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MainActivity.this, GuidePageActivity.class);
+                    intent.putExtra("exit","0");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                }
+            }).show();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     /**

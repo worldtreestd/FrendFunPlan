@@ -9,9 +9,12 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.legend.ffplan.R;
 import com.legend.ffplan.activity.CircleContentActivity;
+import com.legend.ffplan.common.Bean.MessageBean;
 import com.legend.ffplan.common.Bean.MyCircleBean;
+import com.legend.ffplan.fragment.PersonalCenterFragment;
 import com.thinkcool.circletextimageview.CircleTextImageView;
 
 import java.util.List;
@@ -43,11 +46,15 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
             public void onClick(View view) {
                 // 默认顶部item占一个位置
                 int position = mViewHolder.getAdapterPosition()-1;
+
                 MyCircleBean circle = mMyCircleBeanList.get(position);
                 Intent intent = new Intent(mContext, CircleContentActivity.class);
+                String username = intent.getStringExtra("NICKNAME");
                 intent.putExtra(CircleContentActivity.CIRCLE_NAME,circle.getName());
                 intent.putExtra(CircleContentActivity.CIRCLE_IMAGE_ID,circle.getImageId());
                 intent.putExtra(CircleContentActivity.CIRCLE_INTRODUCE,circle.getIntroduce());
+                intent.putExtra(MessageBean.USER_NAME, PersonalCenterFragment.user_nick_name);
+                intent.putExtra(MessageBean.USER_IMAGE_URL,PersonalCenterFragment.user_image_url);
                 mContext.startActivity(intent);
             }
         });
@@ -57,7 +64,7 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         MyCircleBean circleBean = mMyCircleBeanList.get(position);
-        holder.circleTextImageView.setImageResource(circleBean.getImageId());
+        Glide.with(mContext).load(circleBean.getImageId()).into(holder.circleTextImageView);
         holder.circle_name.setText(circleBean.getName());
         holder.circle_introduce.setText(circleBean.getIntroduce());
     }
