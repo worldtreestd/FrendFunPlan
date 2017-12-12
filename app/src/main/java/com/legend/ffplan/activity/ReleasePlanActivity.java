@@ -2,20 +2,34 @@ package com.legend.ffplan.activity;
 
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import com.legend.ffplan.MainActivity;
 import com.legend.ffplan.R;
+import com.legend.ffplan.common.http.IHttpClient;
+import com.legend.ffplan.common.http.IRequest;
+import com.legend.ffplan.common.http.IResponse;
+import com.legend.ffplan.common.http.impl.BaseRequest;
+import com.legend.ffplan.common.http.impl.OkHttpClientImpl;
+import com.legend.ffplan.common.util.ApiUtils;
+import com.legend.ffplan.common.util.MyApplication;
+import com.legend.ffplan.common.util.SharedPreferenceUtils;
+import com.legend.ffplan.common.util.ToastUtils;
 import com.legend.ffplan.common.viewimplement.ICommonView;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import me.james.biuedittext.BiuEditText;
 
@@ -28,9 +42,15 @@ import me.james.biuedittext.BiuEditText;
 public class ReleasePlanActivity extends AppCompatActivity implements ICommonView{
 
     private Toolbar toolbar;
-    private BiuEditText set_date_end;
+    private BiuEditText set_date_end,plan_content,circle_id;
     private CardView release_plan;
     private DatePickerDialog datePickerDialog;
+    private ReleasePlanAsyncTask asyncTask;
+    private int id;
+    private Dialog dialog;
+    private String content;
+    private String time;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,8 +67,10 @@ public class ReleasePlanActivity extends AppCompatActivity implements ICommonVie
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         set_date_end = findViewById(R.id.date_end);
-
+        plan_content = findViewById(R.id.plan_content);
         release_plan = findViewById(R.id.release_plan);
+        circle_id = findViewById(R.id.circle_id);
+        dialog = ToastUtils.createLoadingDialog(this, getString(R.string.release_plan_loading));
     }
 
     @Override
@@ -71,7 +93,7 @@ public class ReleasePlanActivity extends AppCompatActivity implements ICommonVie
                          *  进而引起空指针异常
                          */
                         set_date_end.setFocusable(false);
-                        set_date_end.setText(String.format("%d--%d--%d",i,i1,i2).toString());
+                        set_date_end.setText(String.format("%d-%d-%d 23:59:59",i,i1,i2).toString());
                     }
                 },2017,11,1).show();
             }
@@ -79,10 +101,58 @@ public class ReleasePlanActivity extends AppCompatActivity implements ICommonVie
         release_plan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ReleasePlanActivity.this,"恭喜您成功发布一条计划！",Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(ReleasePlanActivity.this, MainActivity.class).putExtra("id","0"));
+                String circleid = circle_id.getText().toString();
+                if (!TextUtils.isEmpty(circleid)) {
+                    id = Integer.parseInt(circleid);
+                }
+                time = set_date_end.getText().toString();
+                content = plan_content.getText().toString();
+                if (TextUtils.isEmpty(time) ||TextUtils.isEmpty(content) ) {
+                    ToastUtils.showToast(ReleasePlanActivity.this,"还有字段为空哦");
+                } else {
+                    new ReleasePlanAsyncTask().execute(ApiUtils.PLANS);
+                }
             }
         });
+    }
+    class ReleasePlanAsyncTask extends AsyncTask<String,Void,IResponse> {
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog.show();
+        }
+
+        @Override
+        protected IResponse doInBackground(String... strings) {
+            IRequest request = new BaseRequest(strings[0]);
+            SharedPreferenceUtils shared = new SharedPreferenceUtils(MyApplication.getInstance(),SharedPreferenceUtils.COOKIE);
+            request.setHeader("Authorization","JWT "+shared.get(SharedPreferenceUtils.ACCOUNTJWT));
+            Map<String,Object> map = new HashMap<>();
+            map.put("end_time",time);
+            map.put("content",content);
+            map.put("from_circle",id);
+            IHttpClient mHttpClient = new OkHttpClientImpl();
+            IResponse response = mHttpClient.upload_image_post(request,map,null);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(IResponse iResponse) {
+            super.onPostExecute(iResponse);
+            if (iResponse.getCode() == 400) {
+                ToastUtils.showToast(ReleasePlanActivity.this,"当前输入的圈子不存在哦");
+                dialog.dismiss();
+                return;
+            }
+            if (iResponse.getCode() == 201) {
+                dialog.dismiss();
+                ToastUtils.showToast(ReleasePlanActivity.this,"恭喜您成功发布一条计划！");
+                startActivity(new Intent(ReleasePlanActivity.this, MainActivity.class).putExtra("id","1"));
+            } else {
+                ToastUtils.showToast(ReleasePlanActivity.this,"网络出错");
+                dialog.dismiss();
+            }
+        }
     }
 }

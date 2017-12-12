@@ -25,7 +25,6 @@ public class PlanListAdapter extends RecyclerView.Adapter<PlanListAdapter.ViewHo
 
     private Context mContext;
     private List<HomePlanBean> mHomePlanList;
-
     static class ViewHolder extends RecyclerView.ViewHolder {
 
         CardView cardView;
@@ -57,9 +56,14 @@ public class PlanListAdapter extends RecyclerView.Adapter<PlanListAdapter.ViewHo
                 int position = holder.getAdapterPosition()-1;
                 HomePlanBean mPlanBeans = mHomePlanList.get(position);
                 Intent intent = new Intent(mContext,PlanContentActivity.class);
-                intent.putExtra(PlanContentActivity.PLAN_START_TIME,mPlanBeans.getStartTime());
+                intent.putExtra(PlanContentActivity.PLAN_ID,mPlanBeans.getId());
+                intent.putExtra(PlanContentActivity.PLAN_START_TIME,mPlanBeans.getAdd_time().replace("T"," ").substring(0,19));
                 intent.putExtra(PlanContentActivity.PLAN_CONTENT,mPlanBeans.getContent());
-                intent.putExtra(PlanContentActivity.PLAN_FROM,mPlanBeans.getFrom());
+                intent.putExtra(PlanContentActivity.PLAN_FROM,mPlanBeans.getFrom_circle_name());
+                intent.putExtra(PlanContentActivity.PLAN_ADDRESS,mPlanBeans.getAddress());
+                intent.putExtra(PlanContentActivity.PLAN_END_TIME,mPlanBeans.getEnd_time().replace("-","/").substring(0,10));
+                intent.putExtra(PlanContentActivity.PLAN_CREATED,mPlanBeans.getUser());
+                intent.putExtra(PlanContentActivity.PLAN_PART_NUM,mPlanBeans.getUsers_num());
                 mContext.startActivity(intent);
             }
         });
@@ -69,9 +73,9 @@ public class PlanListAdapter extends RecyclerView.Adapter<PlanListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         HomePlanBean mPlanList = mHomePlanList.get(position);
-        holder.mPlan_From.setText(" From："+mPlanList.getFrom());
+        holder.mPlan_From.setText(" From："+mPlanList.getFrom_circle_name());
         holder.mPlan_Content.setText(mPlanList.getContent());
-        holder.mPlan_StartTime.setText(" "+mPlanList.getStartTime());
+        holder.mPlan_StartTime.setText(" "+mPlanList.getAdd_time().replace("T","-").substring(0,19));
     }
 
     @Override

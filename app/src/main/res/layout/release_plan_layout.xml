@@ -31,6 +31,7 @@
 
 
         <me.james.biuedittext.BiuEditText
+            android:id="@+id/plan_content"
             android:textSize="20sp"
             android:gravity="center"
             android:layout_margin="10dp"
@@ -45,15 +46,15 @@
             app:biu_text_start_size="18sp"/>
 
         <me.james.biuedittext.BiuEditText
+            android:id="@+id/circle_id"
             android:layout_margin="10dp"
             android:textSize="20sp"
-            android:hint="请选择将要发布的圈子"
+            android:hint="请输入将要发布的圈子号"
             android:gravity="center"
             android:background="@drawable/shape"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:biu_text_color="#28e9ec"/>
-
 
 
         <android.support.v7.widget.CardView

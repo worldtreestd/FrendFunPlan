@@ -16,9 +16,15 @@ public class DateUtils {
      *  当前时间
      */
     public static String getDate() {
+//        // 之前版本
         Date date = new Date();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/DD");
-        String now_time = dateFormat.format(date);
-        return now_time;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        String now_date = dateFormat.format(date);
+        // java8写法
+//        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+//        LocalDate localDate = LocalDate.now();
+//        String now_date = localDate.format(dateTimeFormatter);
+        return now_date;
     }
+
 }

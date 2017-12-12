@@ -1,6 +1,7 @@
 package com.legend.ffplan.fragment.personalcenter;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -10,13 +11,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.legend.ffplan.R;
-import com.legend.ffplan.common.Bean.MyCircleBean;
+import com.legend.ffplan.common.Bean.HomeCircleBean;
 import com.legend.ffplan.common.adapter.CircleListAdapter;
+import com.legend.ffplan.common.http.IHttpClient;
+import com.legend.ffplan.common.http.IRequest;
+import com.legend.ffplan.common.http.IResponse;
+import com.legend.ffplan.common.http.impl.BaseRequest;
+import com.legend.ffplan.common.http.impl.OkHttpClientImpl;
+import com.legend.ffplan.common.util.ApiUtils;
+import com.legend.ffplan.common.util.MyApplication;
+import com.legend.ffplan.common.util.SharedPreferenceUtils;
 import com.legend.ffplan.common.view.XRecyclerViewDivider;
 import com.legend.ffplan.common.viewimplement.ICommonView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,17 +47,20 @@ public class MyCircleFragment extends Fragment implements ICommonView{
     private View mView;
     private XRecyclerView mRecyclerView;
     private CircleListAdapter adapter;
-    private List<MyCircleBean> circleList = new ArrayList<>();
-    private MyCircleBean[] CircleBeans = {new MyCircleBean(R.mipmap.ic_launcher_round,"世界树项目组","我们不做软件只做创意"),
-            new MyCircleBean(R.drawable.sun,"Github","既然不能改变世界 那就让世界变得更加美好")};
+    private List<HomeCircleBean> circle_List = new ArrayList<>();
+    private HomeCircleBean circleBean;
+    private MyCircleAsyncTask asyncTask;
+    private JSONArray jsonArray1;
+    private List<String> circle_list = new ArrayList<>();
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (mView == null) {
             mView = inflater.inflate(R.layout.mycircle_layout,container,false);
         }
-        initData();
         initView();
+        initData();
         initListener();
         return mView;
     }
@@ -54,14 +72,16 @@ public class MyCircleFragment extends Fragment implements ICommonView{
         mRecyclerView.setLoadingMoreEnabled(true);
         mRecyclerView.setFootViewText("正在玩命加载中...⌇●﹏●⌇","亲(o~.~o) 我也是有底线的哦");
         mRecyclerView.getFootView().setMinimumHeight(400);
-        mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
+        mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallRotate);
+        mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallClipRotateMultiple);
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         manager.setSmoothScrollbarEnabled(true);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
-        adapter = new CircleListAdapter(circleList);
+        adapter = new CircleListAdapter(circle_List);
         mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(adapter);
         mRecyclerView.addItemDecoration(new XRecyclerViewDivider(mView.getContext(),LinearLayoutManager.HORIZONTAL));
+        adapter = new CircleListAdapter(circle_List);
+        mRecyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -70,43 +90,64 @@ public class MyCircleFragment extends Fragment implements ICommonView{
             @Override
             public void onRefresh() {
                 initData();
-                mRecyclerView.refreshComplete();
             }
 
             @Override
             public void onLoadMore() {
-                mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallRotate);
-                loadmoreData();
+//                loadmoreData();
             }
         });
     }
     private void initData() {
+        circle_list.clear();
+        circle_List.clear();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                circleList.clear();
-                for (int i =0;i < 10;i++) {
-                    circleList.add(CircleBeans[0]);
-                    circleList.add(CircleBeans[1]);
-                }
-                adapter.notifyDataSetChanged();
+                new MyCircleAsyncTask().execute(ApiUtils.PARTCIRCLE);
+                mRecyclerView.refreshComplete();
             }
-        },2000);
+        },1000);
     }
-    private void loadmoreData() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                circleList.clear();
-                for (int i =0;i < 15;i++) {
-                    circleList.add(CircleBeans[0]);
-                    circleList.add(CircleBeans[1]);
-                }
-                adapter.notifyDataSetChanged();
-                mRecyclerView.loadMoreComplete();
-                mRecyclerView.setNoMore(true);
-            }
-        },2000);
+    class MyCircleAsyncTask extends AsyncTask<String,Void,List<HomeCircleBean>> {
 
+        @Override
+        protected List<HomeCircleBean> doInBackground(String... strings) {
+            IRequest request = new BaseRequest(strings[0]);
+            SharedPreferenceUtils shared =
+                    new SharedPreferenceUtils(MyApplication.getInstance(), SharedPreferenceUtils.COOKIE);
+            request.setHeader("Authorization", "JWT " + shared.get(SharedPreferenceUtils.ACCOUNTJWT));
+
+            IHttpClient mHttpclient = new OkHttpClientImpl();
+            IResponse response = mHttpclient.get(request);
+            String data = response.getData().toString();
+            try {
+                jsonArray1 = new JSONArray(data);
+                for (int i=0;i < jsonArray1.length();i++) {
+                    JSONObject jsonObject = jsonArray1.getJSONObject(i);
+                    String circle = jsonObject.getString("circle");
+                    circle_list.add(circle);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            Gson gson = new Gson();
+            List<HomeCircleBean> homeCircleBeans =
+                    gson.fromJson(circle_list.toString(), new TypeToken<List<HomeCircleBean>>() {
+                    }.getType());
+            return homeCircleBeans;
+        }
+
+        @Override
+        protected void onPostExecute(List<HomeCircleBean> homeCircleBeans) {
+            super.onPostExecute(homeCircleBeans);
+            for (HomeCircleBean circle : homeCircleBeans) {
+                circleBean =
+                        new HomeCircleBean(circle.getId(), circle.getImage(), circle.getName(), circle.getDesc(),
+                                circle.getUser(), circle.getAddress(), circle.getAdd_time());
+                circle_List.add(circleBean);
+            }
+            adapter.notifyDataSetChanged();
+        }
     }
 }

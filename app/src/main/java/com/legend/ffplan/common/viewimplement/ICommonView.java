@@ -17,4 +17,5 @@ public interface ICommonView {
      *  加载事件
      */
     void initListener();
+
 }

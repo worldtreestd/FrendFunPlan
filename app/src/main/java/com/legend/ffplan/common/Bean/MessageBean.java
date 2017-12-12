@@ -9,37 +9,55 @@ package com.legend.ffplan.common.Bean;
 public class MessageBean {
 
     /**
-     *  自己发送的信息
+     * circle : 100002
+     * user : admin
+     * message : 超时代
+     * type : 0
+     * add_time : 2018-01-10T11:45:33.582194
+     * user_image_url :
      */
-    public static final int SELF_SEND = 0;
-    /**
-     *  别人发送的信息
-     */
-    public static final int OTHER_SEND = 1;
-    public static final String USER_NAME = "user_name";
-    public static final String USER_IMAGE_URL = "user_image_url";
-    private String content;
+
+    private int id;
+    private int circle;
+    private String user;
+    private String message;
     private int type;
+    private String add_time;
     private String user_image_url;
-    private String user_name;
 
-    public MessageBean(String content,int type) {
-        this.content = content;
-        this.type = type;
-    }
-    public MessageBean(String content,int type,String user_image_url,String user_name) {
-        this.content = content;
-        this.type = type;
+    public MessageBean(String message,int type,String user_image_url,String user_name) {
+        this.message = message;
         this.user_image_url = user_image_url;
-        this.user_name = user_name;
+        this.user = user_name;
+        this.type= type;
+    }
+    public MessageBean(int circle_id,String message) {
+        this.circle = circle_id;
+        this.message = message;
     }
 
-    public String getContent() {
-        return content;
+    public int getCircle() {
+        return circle;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setCircle(int circle) {
+        this.circle = circle;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public int getType() {
@@ -50,6 +68,14 @@ public class MessageBean {
         this.type = type;
     }
 
+    public String getAdd_time() {
+        return add_time;
+    }
+
+    public void setAdd_time(String add_time) {
+        this.add_time = add_time;
+    }
+
     public String getUser_image_url() {
         return user_image_url;
     }
@@ -58,11 +84,11 @@ public class MessageBean {
         this.user_image_url = user_image_url;
     }
 
-    public String getUser_name() {
-        return user_name;
+    public int getId() {
+        return id;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setId(int id) {
+        this.id = id;
     }
 }

@@ -32,6 +32,7 @@
             android:layout_alignBottom="@+id/plan_from"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="13dp"
+            android:maxEms="19"
             android:text="yyyy/mm/dd"
             android:textSize="15sp" />
 
@@ -52,7 +53,10 @@
             android:layout_alignBottom="@+id/content"
             android:layout_toEndOf="@+id/content"
             android:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:maxEms="30"
+            android:ellipsize="end"
+            />
 
     </RelativeLayout>
 

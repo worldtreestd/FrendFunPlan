@@ -14,7 +14,7 @@
 
         <com.thinkcool.circletextimageview.CircleTextImageView
             android:id="@+id/other_user_image"
-            android:background="@drawable/sun"
+            android:background="@drawable/loading_10"
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:layout_margin="3dp" />
@@ -25,12 +25,13 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/me_name"
+            android:id="@+id/other_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/app_name" />
 
         <LinearLayout
+            android:layout_marginTop="4dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/message_left"
@@ -63,7 +64,7 @@
 
         <TextView
             android:paddingRight="6dp"
-            android:id="@+id/my_name"
+            android:id="@+id/me_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toStartOf="@+id/me_image"
@@ -72,7 +73,7 @@
 
         <LinearLayout
             android:layout_margin="5dp"
-            android:layout_below="@+id/my_name"
+            android:layout_below="@+id/me_name"
             android:layout_toLeftOf="@+id/me_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -30,6 +30,7 @@
 
 
     <me.james.biuedittext.BiuEditText
+        android:id="@+id/circle_name"
         android:layout_marginTop="10dp"
         android:textSize="18sp"
         android:hint="请编辑圈子名"
@@ -45,23 +46,41 @@
         app:biu_type="flyup"
         app:biu_text_start_size="18sp"/>
 
-    <me.james.biuedittext.BiuEditText
-        android:layout_marginTop="10dp"
-        android:textSize="18sp"
-        android:elevation="10dp"
-        android:hint="请输入圈子所在地点"
-        android:gravity="center"
-        android:layout_margin="5dp"
-        android:background="@drawable/shape"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        app:biu_duration="800"
-        app:biu_text_color="#28e9ec"
-        app:biu_text_scale="1.5"
-        app:biu_type="flyup"
-        app:biu_text_start_size="18sp"/>
+   <LinearLayout
+       android:elevation="10dp"
+       android:background="@drawable/shape"
+       android:layout_marginTop="10dp"
+       android:layout_margin="5dp"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+      <Button
+          android:id="@+id/address_picker"
+          android:textSize="18sp"
+          android:background="@color/white"
+          android:text="请选择所在地区"
+          android:layout_weight="1"
+          android:layout_width="match_parent"
+          android:layout_height="40dp" />
+
+       <me.james.biuedittext.BiuEditText
+           android:id="@+id/circle_address"
+           android:layout_width="match_parent"
+           android:layout_height="40dp"
+           android:layout_weight="1"
+           android:background="@drawable/shape"
+           android:hint="请输入具体地点"
+           android:textSize="18sp"
+           app:biu_duration="800"
+           app:biu_text_color="#28e9ec"
+           app:biu_text_scale="1.5"
+           app:biu_text_start_size="18sp"
+           app:biu_type="flyup" />
+
+   </LinearLayout>
 
     <me.james.biuedittext.BiuEditText
+        android:id="@+id/circle_content"
         android:textSize="20sp"
         android:layout_margin="5dp"
         android:elevation="10dp"

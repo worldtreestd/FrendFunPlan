@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.legend.ffplan.R;
 import com.legend.ffplan.common.Bean.MessageBean;
+import com.legend.ffplan.fragment.circlecenter.CircleConversationFragment;
 import com.thinkcool.circletextimageview.CircleTextImageView;
 
 import java.util.List;
@@ -40,18 +41,22 @@ public class CircleMessageAdapter extends XRecyclerView.Adapter<CircleMessageAda
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         MessageBean messageBean = mMessageList.get(position);
-        if (messageBean.getType() == MessageBean.SELF_SEND) {
-            holder.user_name.setText(messageBean.getUser_name());
+        if (messageBean.getType() == CircleConversationFragment.SELF_SEND) {
+            holder.user_name.setText(messageBean.getUser());
             Glide.with(mContext).load(messageBean.getUser_image_url())
                     .error(R.mipmap.ic_launcher_round)
                     .into(holder.me_image);
             holder.left_message.setVisibility(View.GONE);
             holder.right_message.setVisibility(View.VISIBLE);
-            holder.right_text.setText(messageBean.getContent());
-        } else if (messageBean.getType() == messageBean.OTHER_SEND) {
+            holder.right_text.setText(messageBean.getMessage());
+        } else if (messageBean.getType() == CircleConversationFragment.OTHER_SEND){
+            Glide.with(mContext).load(messageBean.getUser_image_url())
+                    .error(R.mipmap.ic_launcher_round)
+                    .into(holder.other_image);
+            holder.other_name.setText(messageBean.getUser());
             holder.right_message.setVisibility(View.GONE);
             holder.left_message.setVisibility(View.VISIBLE);
-            holder.left_text.setText(messageBean.getContent());
+            holder.left_text.setText(messageBean.getMessage());
         }
     }
 
@@ -67,7 +72,9 @@ public class CircleMessageAdapter extends XRecyclerView.Adapter<CircleMessageAda
         TextView left_text;
         TextView right_text;
         TextView user_name;
+        TextView other_name;
         CircleTextImageView me_image;
+        CircleTextImageView other_image;
 
         @SuppressLint("WrongViewCast")
         public ViewHolder(View itemView) {
@@ -76,8 +83,10 @@ public class CircleMessageAdapter extends XRecyclerView.Adapter<CircleMessageAda
             right_message = itemView.findViewById(R.id.right_layout);
             left_text = itemView.findViewById(R.id.left_msg);
             right_text = itemView.findViewById(R.id.right_msg);
-            user_name = itemView.findViewById(R.id.my_name);
+            user_name = itemView.findViewById(R.id.me_name);
+            other_name = itemView.findViewById(R.id.other_name);
             me_image = itemView.findViewById(R.id.me_image);
+            other_image = itemView.findViewById(R.id.other_user_image);
         }
     }
     public CircleMessageAdapter(List<MessageBean> mMessageList) {

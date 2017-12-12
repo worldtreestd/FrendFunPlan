@@ -70,11 +70,11 @@
                 android:text="已完成！" />
 
             <Button
-            android:layout_marginLeft="70dp"
-            android:id="@+id/delete_plan"
-            android:layout_width="120dp"
-            android:layout_height="40dp"
-            android:background="@drawable/shape"
+                android:layout_marginLeft="70dp"
+                android:id="@+id/delete_plan"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:background="@drawable/shape"
             android:text="删除！" />
 
         </LinearLayout>

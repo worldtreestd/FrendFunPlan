@@ -40,6 +40,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/create_circle"
         android:layout_toEndOf="@+id/create_circle"
+        android:maxEms="20"
+        android:ellipsize="end"
+        android:lines="2"
         android:text="不能改变世界那就让世界变得更加美好" />
 
 </RelativeLayout>

@@ -2,40 +2,69 @@ package com.legend.ffplan.common.Bean;
 
 /**
  * @author Legend
- * @data by on 2017/11/29.
- * @description 计划Bean
+ * @data by on 2018/1/5.
+ * @description
  */
 
 public class HomePlanBean {
+
     /**
-     *  开始时间
+     * from_circle_name : 世界树
+     * user : admin
+     * end_time : 2017-12-30T09:51:00
+     * content : 胜多负少爽肤水看出来是否深V看DVD没v啥都没出大V次幂多少v模式的方式递归漏电开关2数据访问
+     * address : 望城县
+     * users_num : 3
+     * add_time : 2017-12-30T09:51:00
      */
-    private String startTime;
-    /**
-     *  结束时间
-     */
-    private String endTime;
-    /**
-     *  计划详情
-     */
+
+    private int id;
+    private String from_circle_name;
+    private String user;
+    private String end_time;
     private String content;
-    /**
-     *  计划所属圈子
-     */
-    private String from;
-    /**
-     *  创建人
-     */
-    private String create_man;
-    /**
-     *  当前加入人数
-     */
-    private int current_person_count;
+    private String address;
+    private int users_num;
+    private String add_time;
 
     public HomePlanBean(String startTime, String content, String from) {
-        this.startTime = startTime;
+        this.add_time = startTime;
         this.content = content;
-        this.from = from;
+        this.from_circle_name = from;
+    }
+    public HomePlanBean(int id,String startTime, String content, String from,String user,String address,int users_num,String end_time) {
+        this.id = id;
+        this.add_time = startTime;
+        this.content = content;
+        this.from_circle_name = from;
+        this.user = user;
+        this.address = address;
+        this.users_num = users_num;
+        this.end_time = end_time;
+    }
+
+    public String getFrom_circle_name() {
+        return from_circle_name;
+    }
+
+    public void setFrom_circle_name(String from_circle_name) {
+        this.from_circle_name = from_circle_name;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
+    }
+
+    public String getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(String end_time) {
+        this.end_time = end_time;
     }
 
     public String getContent() {
@@ -46,43 +75,35 @@ public class HomePlanBean {
         this.content = content;
     }
 
-    public String getEndTime() {
-        return endTime;
+    public String getAddress() {
+        return address;
     }
 
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getFrom() {
-        return from;
+    public int getUsers_num() {
+        return users_num;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setUsers_num(int users_num) {
+        this.users_num = users_num;
     }
 
-    public String getStartTime() {
-        return startTime;
+    public String getAdd_time() {
+        return add_time;
     }
 
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
+    public void setAdd_time(String add_time) {
+        this.add_time = add_time;
     }
 
-    public String getCreate_man() {
-        return create_man;
+    public int getId() {
+        return id;
     }
 
-    public void setCreate_man(String create_man) {
-        this.create_man = create_man;
-    }
-
-    public int getCurrent_person_count() {
-        return current_person_count;
-    }
-
-    public void setCurrent_person_count(int current_person_count) {
-        this.current_person_count = current_person_count;
+    public void setId(int id) {
+        this.id = id;
     }
 }

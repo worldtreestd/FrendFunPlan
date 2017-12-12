@@ -15,9 +15,8 @@
             android:id="@+id/user_image"
             android:textDirection="firstStrong"
             android:src="@mipmap/ic_launcher_round"
-
             app:citv_border_width="2dp"
-            app:citv_border_color="@color/green"
+            app:citv_border_color="@color/light_blue"
             android:layout_width="100dp"
             android:layout_height="100dp" />
 

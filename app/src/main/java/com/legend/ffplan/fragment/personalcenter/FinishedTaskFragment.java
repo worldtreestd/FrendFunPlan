@@ -15,7 +15,6 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.legend.ffplan.R;
 import com.legend.ffplan.common.Bean.HomePlanBean;
 import com.legend.ffplan.common.adapter.PlanListAdapter;
-import com.legend.ffplan.common.util.DateUtils;
 import com.legend.ffplan.common.viewimplement.ICommonView;
 
 import java.util.ArrayList;
@@ -33,8 +32,7 @@ public class FinishedTaskFragment extends Fragment implements ICommonView {
     private XRecyclerView mRecyclerView;
     private PlanListAdapter adapter;
     private List<HomePlanBean> plan_list = new ArrayList<>();
-    private HomePlanBean[] homePlanBeans = {new HomePlanBean(DateUtils.getDate(),"村声势浩大和你说的还能对你很好的汉莎安达的和你上次你说的不迪士尼的环境按时间","湖南信息职业技术学院"),
-            new HomePlanBean(DateUtils.getDate(),"村声势浩大和你说的还能对你很好的汉莎安达的和你上次你说的不迪士尼的环境按时间","南县一中")};
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -84,8 +82,8 @@ public class FinishedTaskFragment extends Fragment implements ICommonView {
             @Override
             public void run() {
                 for (int i = 0;i < 10;i++) {
-                    plan_list.add(homePlanBeans[0]);
-                    plan_list.add(homePlanBeans[1]);
+//                    plan_list.add(homePlanBeans[0]);
+//                    plan_list.add(homePlanBeans[1]);
                 }
                 adapter.notifyDataSetChanged();
             }
@@ -98,8 +96,8 @@ public class FinishedTaskFragment extends Fragment implements ICommonView {
                 plan_list.clear();
                 int i;
                 for (i = 0;i < 33;i++) {
-                    plan_list.add(homePlanBeans[0]);
-                    plan_list.add(homePlanBeans[1]);
+//                    plan_list.add(homePlanBeans[0]);
+//                    plan_list.add(homePlanBeans[1]);
                 }
                 adapter.notifyDataSetChanged();
                 Toast.makeText(getContext(),"加载了"+i*2+"条数据",Toast.LENGTH_SHORT).show();

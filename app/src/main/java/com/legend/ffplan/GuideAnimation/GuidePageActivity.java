@@ -1,10 +1,10 @@
 package com.legend.ffplan.GuideAnimation;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -15,7 +15,11 @@ import android.widget.Toast;
 
 import com.legend.ffplan.MainActivity;
 import com.legend.ffplan.R;
-import com.legend.ffplan.common.Bean.MessageBean;
+import com.legend.ffplan.common.util.AccountManageUtils;
+import com.legend.ffplan.common.util.MyApplication;
+import com.legend.ffplan.common.util.SharedPreferenceUtils;
+import com.legend.ffplan.common.util.ToastUtils;
+import com.legend.ffplan.fragment.circlecenter.CircleConversationFragment;
 import com.nightonke.wowoviewpager.Animation.WoWoAlphaAnimation;
 import com.nightonke.wowoviewpager.Animation.WoWoElevationAnimation;
 import com.nightonke.wowoviewpager.Animation.WoWoPathAnimation;
@@ -45,7 +49,8 @@ public class GuidePageActivity extends WoWoActivity {
     public static int APP_ID = 222222;
     private String token;
     private String openId;
-
+    private SharedPreferenceUtils sharedPreferences;
+    private AccountManageUtils accountManageUtils;
     private int r;
     private boolean animationAdded = false;
     private ImageView targetPlanet;
@@ -74,6 +79,12 @@ public class GuidePageActivity extends WoWoActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads().detectDiskWrites().detectNetwork()
+                .penaltyLog().build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects().detectLeakedClosableObjects()
+                .penaltyLog().penaltyDeath().build());
         switchIntent();
         super.onCreate(savedInstanceState);
         r = (int) Math.sqrt(screenW * screenW + screenH * screenH) + 10;
@@ -81,22 +92,7 @@ public class GuidePageActivity extends WoWoActivity {
         ImageView earth = (ImageView) findViewById(R.id.earth);
         targetPlanet = (ImageView) findViewById(R.id.planet_target);
         loginLayout = findViewById(R.id.login_layout);
-        login_button = findViewById(R.id.button);
-        mTencent = Tencent.createInstance(String.valueOf(APP_ID),getApplicationContext());
-
-        login_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!mTencent.isSessionValid()) {
-                    mTencent.login(GuidePageActivity.this, "all", loginListener);
-
-                } else {
-                    mTencent.logout(GuidePageActivity.this);
-                    mTencent.login(GuidePageActivity.this, "all", loginListener);
-                    return;
-                }
-            }
-        });
+        initTencent();
         earth.setY(screenH / 2);
         targetPlanet.setY(-screenH / 2 - screenW / 2);
         targetPlanet.setScaleX(0.25f);
@@ -108,13 +104,33 @@ public class GuidePageActivity extends WoWoActivity {
     }
 
     /**
+     *  初始化
+     */
+    private void initTencent() {
+        login_button = findViewById(R.id.button);
+        mTencent = Tencent.createInstance(String.valueOf(APP_ID),getApplicationContext());
+
+        login_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!mTencent.isSessionValid()) {
+                    mTencent.login(GuidePageActivity.this, "all", loginListener);
+                } else {
+                    mTencent.logout(GuidePageActivity.this);
+                    mTencent.login(GuidePageActivity.this, "all", loginListener);
+                    return;
+                }
+            }
+        });
+    }
+    /**
      *  使用token自动登录
      */
     private void tokenlogin() {
-        SharedPreferences sharedPreferences = getSharedPreferences("cookie",MODE_PRIVATE);
-        token = sharedPreferences.getString("token",null);
-        openId = sharedPreferences.getString("openId",null);
-        String expires = sharedPreferences.getString("expires",null);
+        sharedPreferences = new SharedPreferenceUtils(MyApplication.getInstance(),SharedPreferenceUtils.COOKIE);
+        token = sharedPreferences.get(SharedPreferenceUtils.ACCESSTOKEN);
+        openId = sharedPreferences.get(SharedPreferenceUtils.OPENID);
+        String expires = sharedPreferences.get(SharedPreferenceUtils.EXPIRES);
         if ( token != null &&  openId != null && expires != null) {
             mTencent.setAccessToken(token, expires);
             mTencent.setOpenId(openId);
@@ -132,12 +148,12 @@ public class GuidePageActivity extends WoWoActivity {
                 mTencent.setAccessToken(token, expires);
                 mTencent.setOpenId(openId);
                 /**
-                 *  第一次登录时保持token
+                 *  第一次登录时保存cookie
                  */
-                SharedPreferences sharedPreferences = getSharedPreferences("cookie",MODE_PRIVATE);
-                sharedPreferences.edit().putString("token",token)
-                        .putString("openId",openId)
-                        .putString("expires",expires).commit();
+                sharedPreferences = new SharedPreferenceUtils(MyApplication.getInstance(),SharedPreferenceUtils.COOKIE);
+                sharedPreferences.save(SharedPreferenceUtils.ACCESSTOKEN,token);
+                sharedPreferences.save(SharedPreferenceUtils.OPENID,openId);
+                sharedPreferences.save(SharedPreferenceUtils.EXPIRES,expires);
                 userInfo = new UserInfo(GuidePageActivity.this,mTencent.getQQToken());
                 userInfo.getUserInfo(userInfoListener);
             }
@@ -165,27 +181,26 @@ public class GuidePageActivity extends WoWoActivity {
                 return;
             }
             try {
+                if (accountManageUtils == null) {
+                    accountManageUtils = new AccountManageUtils(token,openId);
+                }
+                accountManageUtils.loginByJWT();
                 JSONObject jo = (JSONObject) arg0;
-                int ret = jo.getInt("ret");
-                System.out.println("json=" + String.valueOf(jo));
+
                 final String nickName = jo.getString("nickname");
                 String gender = jo.getString("gender");
                 String qq_image = jo.getString("figureurl_qq_2");
                 Intent intent = new Intent();
-                intent.putExtra(MessageBean.USER_NAME,nickName);
-                intent.putExtra(MessageBean.USER_IMAGE_URL,qq_image);
-                intent.putExtra("TOKEN",token);
-                intent.putExtra("OPENID",openId);
+                intent.putExtra(CircleConversationFragment.USER_NAME,nickName);
+                intent.putExtra(CircleConversationFragment.USER_IMAGE_URL,qq_image);
                 intent.setClass(GuidePageActivity.this, MainActivity.class);
+
                 startActivity(intent);
-                Toast.makeText(GuidePageActivity.this, "亲爱的【" + nickName+"】你好 欢迎来到这里",
-                        Toast.LENGTH_LONG).show();
+                ToastUtils.showToast(GuidePageActivity.this,"亲爱的【" + nickName+"】你好 欢迎来到这里");
 
             } catch (Exception e) {
                 // TODO: handle exception
             }
-
-
         }
 
         @Override
