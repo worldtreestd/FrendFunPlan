@@ -49,7 +49,7 @@
             android:id="@+id/circle_id"
             android:layout_margin="10dp"
             android:textSize="20sp"
-            android:hint="请输入将要发布的圈子号"
+            android:hint="输入要发布的6位数圈子号"
             android:gravity="center"
             android:background="@drawable/shape"
             android:layout_width="match_parent"
