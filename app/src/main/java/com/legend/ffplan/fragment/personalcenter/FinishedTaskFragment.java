@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * @author Legend
  * @data by on 2017/12/3.
- * @description
+ * @description 已完任务Fragment
  */
 
 public class FinishedTaskFragment extends Fragment implements ICommonView {

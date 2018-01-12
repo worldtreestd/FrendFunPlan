@@ -20,6 +20,7 @@ import java.util.List;
 public class PersonalCenterFragmentAdapter extends FragmentPagerAdapter  {
 
     private List<Fragment> mFragments;
+    private String titles[] = new String[]{"我的圈子","待办任务","已完任务"};
 
     public PersonalCenterFragmentAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
@@ -39,5 +40,10 @@ public class PersonalCenterFragmentAdapter extends FragmentPagerAdapter  {
     @Override
     public int getCount() {
         return 3;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titles[position];
     }
 }

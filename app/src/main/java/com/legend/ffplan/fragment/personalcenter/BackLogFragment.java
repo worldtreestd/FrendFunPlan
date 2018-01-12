@@ -37,7 +37,7 @@ import java.util.List;
 /**
  * @author Legend
  * @data by on 2017/12/3.
- * @description
+ * @description 待办事项Fragment
  */
 
 public class BackLogFragment extends Fragment implements ICommonView {
@@ -76,6 +76,7 @@ public class BackLogFragment extends Fragment implements ICommonView {
         mRecyclerView.setLayoutManager(manager);
         adapter = new BackLogAdapter(plan_List);
         mRecyclerView.setAdapter(adapter);
+        refreshData();
     }
 
     @Override

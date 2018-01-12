@@ -93,6 +93,8 @@ public class BackLogAdapter extends PlanListAdapter {
             super.onPostExecute(iResponse);
             if (iResponse.getCode() == 204) {
                 ToastUtils.showToast(MyApplication.getInstance(),"您已成功删除该条计划");
+//                BackLogFragment backLogFragment = new BackLogFragment();
+//                backLogFragment.initView();
             } else if (iResponse.getCode() == 404) {
                 ToastUtils.showToast(MyApplication.getInstance(),"当前计划已经被删除 请尝试刷新");
             } else {

@@ -154,7 +154,7 @@ public class CircleSearchActivity extends AppCompatActivity implements ICommonVi
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                asyncTask = (CircleSearchAsyncTask) new CircleSearchAsyncTask()
+                new CircleSearchAsyncTask()
                             .execute(ApiUtils.SEARCH + query);
                 mRecyclerView.refreshComplete();
             }
@@ -162,6 +162,12 @@ public class CircleSearchActivity extends AppCompatActivity implements ICommonVi
 
     }
     class CircleSearchAsyncTask extends AsyncTask<String,Void,List<HomeCircleBean>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog.show();
+        }
 
         @Override
         protected List<HomeCircleBean> doInBackground(String... strings) {
@@ -192,9 +198,18 @@ public class CircleSearchActivity extends AppCompatActivity implements ICommonVi
                                 circle.getUser(),circle.getAddress(),circle.getAdd_time());
                 circleList.add(circleBean);
             }
-            if (circleList != null) {
-                Toast.makeText(CircleSearchActivity.this, "查找成功！", Toast.LENGTH_SHORT).show();
-            }
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (circleList.size() > 0) {
+                        Toast.makeText(CircleSearchActivity.this, "查找成功！", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(CircleSearchActivity.this, "搜寻未果，换个关键词再查找一下吧！", Toast.LENGTH_SHORT).show();
+                    }
+                    dialog.dismiss();
+                }
+            },500);
+
             adapter.notifyDataSetChanged();
         }
     }

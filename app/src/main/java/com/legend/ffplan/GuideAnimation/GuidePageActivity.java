@@ -82,11 +82,11 @@ public class GuidePageActivity extends WoWoActivity {
         StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
                 .detectDiskReads().detectDiskWrites().detectNetwork()
                 .penaltyLog().build());
-        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
-                .detectLeakedSqlLiteObjects().detectLeakedClosableObjects()
-                .penaltyLog().penaltyDeath().build());
-        switchIntent();
+//        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+//                .detectLeakedSqlLiteObjects().detectLeakedClosableObjects()
+//                .penaltyLog().penaltyDeath().build());
         super.onCreate(savedInstanceState);
+        switchIntent();
         r = (int) Math.sqrt(screenW * screenW + screenH * screenH) + 10;
 
         ImageView earth = (ImageView) findViewById(R.id.earth);
@@ -115,10 +115,6 @@ public class GuidePageActivity extends WoWoActivity {
             public void onClick(View view) {
                 if (!mTencent.isSessionValid()) {
                     mTencent.login(GuidePageActivity.this, "all", loginListener);
-                } else {
-                    mTencent.logout(GuidePageActivity.this);
-                    mTencent.login(GuidePageActivity.this, "all", loginListener);
-                    return;
                 }
             }
         });
@@ -131,7 +127,8 @@ public class GuidePageActivity extends WoWoActivity {
         token = sharedPreferences.get(SharedPreferenceUtils.ACCESSTOKEN);
         openId = sharedPreferences.get(SharedPreferenceUtils.OPENID);
         String expires = sharedPreferences.get(SharedPreferenceUtils.EXPIRES);
-        if ( token != null &&  openId != null && expires != null) {
+        if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(expires)
+                && !TextUtils.isEmpty(openId)) {
             mTencent.setAccessToken(token, expires);
             mTencent.setOpenId(openId);
             userInfo = new UserInfo(GuidePageActivity.this,mTencent.getQQToken());
@@ -187,7 +184,7 @@ public class GuidePageActivity extends WoWoActivity {
                 accountManageUtils.loginByJWT();
                 JSONObject jo = (JSONObject) arg0;
 
-                final String nickName = jo.getString("nickname");
+                String nickName = jo.getString("nickname");
                 String gender = jo.getString("gender");
                 String qq_image = jo.getString("figureurl_qq_2");
                 Intent intent = new Intent();
@@ -265,7 +262,7 @@ public class GuidePageActivity extends WoWoActivity {
             int id = Integer.parseInt(s);
             switch (id) {
                 case 0:
-                    android.os.Process.killProcess(android.os.Process.myPid());
+                    finish();
                     System.exit(0);
                     break;
                 default:

@@ -39,7 +39,7 @@ import java.util.List;
 /**
  * @author Legend
  * @data by on 2017/12/3.
- * @description
+ * @description 我的圈子Fragment
  */
 
 public class MyCircleFragment extends Fragment implements ICommonView{
@@ -100,7 +100,6 @@ public class MyCircleFragment extends Fragment implements ICommonView{
     }
     private void initData() {
         circle_list.clear();
-        circle_List.clear();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -141,6 +140,7 @@ public class MyCircleFragment extends Fragment implements ICommonView{
         @Override
         protected void onPostExecute(List<HomeCircleBean> homeCircleBeans) {
             super.onPostExecute(homeCircleBeans);
+            circle_List.clear();
             for (HomeCircleBean circle : homeCircleBeans) {
                 circleBean =
                         new HomeCircleBean(circle.getId(), circle.getImage(), circle.getName(), circle.getDesc(),

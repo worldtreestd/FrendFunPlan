@@ -10,10 +10,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.legend.ffplan.MainActivity;
 import com.legend.ffplan.R;
 import com.legend.ffplan.activity.CircleContentActivity;
 import com.legend.ffplan.common.Bean.HomeCircleBean;
-import com.legend.ffplan.fragment.PersonalCenterFragment;
 import com.legend.ffplan.fragment.circlecenter.CircleConversationFragment;
 import com.thinkcool.circletextimageview.CircleTextImageView;
 
@@ -57,8 +57,8 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
                 intent.putExtra(CircleContentActivity.CIRCLE_CREATED,circle.getUser());
                 intent.putExtra(CircleContentActivity.CIRCLE_ID,circle.getId());
                 intent.putExtra(CircleContentActivity.CIRCLE_ADD_TIME,circle.getAdd_time());
-                intent.putExtra(CircleConversationFragment.USER_NAME, PersonalCenterFragment.user_nick_name);
-                intent.putExtra(CircleConversationFragment.USER_IMAGE_URL,PersonalCenterFragment.user_image_url);
+                intent.putExtra(CircleConversationFragment.USER_NAME,MainActivity.user_nick_name);
+                intent.putExtra(CircleConversationFragment.USER_IMAGE_URL,MainActivity.user_image_url);
                 mContext.startActivity(intent);
             }
         });
@@ -68,7 +68,9 @@ public class CircleListAdapter extends RecyclerView.Adapter<CircleListAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         HomeCircleBean circleBean = mMyCircleBeanList.get(position);
-        Glide.with(mContext).load(circleBean.getImage()).into(holder.circleTextImageView);
+        Glide.with(mContext).load(circleBean.getImage())
+                .error(R.drawable.loading_12)
+                .into(holder.circleTextImageView);
         holder.circle_name.setText(circleBean.getName());
         holder.circle_introduce.setText(circleBean.getDesc());
     }

@@ -7,7 +7,6 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,19 +132,6 @@ public class HomeCircleFragment extends Fragment implements ICommonView{
                 }
             }
         },500);
-    }
-
-    /**
-     *  返回搜索结果
-     * @throws JSONException
-     */
-    private void refreshSearch() {
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            String data = bundle.getString(SEARCH_CIRCLE_RESULTS);
-            if (!TextUtils.isEmpty(data)) {
-            }
-        }
     }
         /**
          *  异步加载Json数据

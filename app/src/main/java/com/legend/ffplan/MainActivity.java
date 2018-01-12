@@ -4,8 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -24,9 +28,10 @@ import com.legend.ffplan.activity.CircleSearchActivity;
 import com.legend.ffplan.activity.CreateCircleActivity;
 import com.legend.ffplan.activity.ReleasePlanActivity;
 import com.legend.ffplan.common.adapter.MainFragmentAdapter;
-import com.legend.ffplan.common.view.RotateDownPageTransformer;
+import com.legend.ffplan.common.view.DepthPageTransformer;
 import com.legend.ffplan.common.viewimplement.ICommonView;
 import com.legend.ffplan.fragment.HomeCircleFragment;
+import com.legend.ffplan.fragment.circlecenter.CircleConversationFragment;
 import com.lilei.springactionmenu.ActionMenu;
 import com.lilei.springactionmenu.OnActionItemClickListener;
 
@@ -50,6 +55,9 @@ public class MainActivity extends AppCompatActivity implements ICommonView {
     private AutoCompleteTextView mSearchAutoComplete;
     private SearchView searchView;
     private HomeCircleFragment homeCircleFragment;
+    public static String user_image_url;
+    public static String user_nick_name;
+    private DrawerLayout mDrawerLayout;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -94,6 +102,9 @@ public class MainActivity extends AppCompatActivity implements ICommonView {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case android.R.id.home:
+                mDrawerLayout.openDrawer(GravityCompat.START);
+                break;
             case R.id.app_bar_search:
 //                LayoutInflater inflater = (LayoutInflater)this.getSystemService(LAYOUT_INFLATER_SERVICE);
 //                LinearLayout editTextLayout = (LinearLayout) inflater.inflate(R.layout.biuedittext_layout,null);
@@ -150,8 +161,24 @@ public class MainActivity extends AppCompatActivity implements ICommonView {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setSubtitle("让你的计划不再枯燥");
+        mDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        NavigationView navigationView = (NavigationView)findViewById(R.id.nav_view);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null){
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                mDrawerLayout.closeDrawers();
+                return true;
+            }
+        });
         mViewPager = findViewById(R.id.mViewPager);
-
+        Intent intent = getIntent();
+        user_image_url = intent.getStringExtra(CircleConversationFragment.USER_IMAGE_URL);
+        user_nick_name = intent.getStringExtra(CircleConversationFragment.USER_NAME);
         if (actionMenu == null) {
             actionMenu = mView.findViewById(R.id.float_button);
         }
@@ -160,7 +187,8 @@ public class MainActivity extends AppCompatActivity implements ICommonView {
         actionMenu.addView(R.drawable.write);
         mainFragmentAdapter = new MainFragmentAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mainFragmentAdapter);
-        mViewPager.setPageTransformer(true,new RotateDownPageTransformer());
+        mViewPager.setOffscreenPageLimit(3);
+        mViewPager.setPageTransformer(true,new DepthPageTransformer());
         navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_home);

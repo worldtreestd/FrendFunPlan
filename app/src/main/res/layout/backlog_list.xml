@@ -4,6 +4,7 @@
     android:layout_margin="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardCornerRadius="10dp"
+    android:foreground="?android:attr/selectableItemBackground"
     app:cardBackgroundColor="#05def2"
     android:id="@+id/cardview"
     android:orientation="vertical"

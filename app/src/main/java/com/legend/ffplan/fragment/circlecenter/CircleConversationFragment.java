@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.legend.ffplan.R;
 import com.legend.ffplan.activity.CircleContentActivity;
@@ -29,6 +31,7 @@ import com.legend.ffplan.common.http.impl.OkHttpClientImpl;
 import com.legend.ffplan.common.util.ApiUtils;
 import com.legend.ffplan.common.util.MyApplication;
 import com.legend.ffplan.common.util.SharedPreferenceUtils;
+import com.legend.ffplan.common.util.ToastUtils;
 import com.legend.ffplan.common.viewimplement.ICommonView;
 
 import java.util.ArrayList;
@@ -90,7 +93,8 @@ public class CircleConversationFragment extends Fragment implements ICommonView{
         LinearLayoutManager manager = new LinearLayoutManager(mView.getContext());
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setPullRefreshEnabled(false);
+        mRecyclerView.setLoadingMoreEnabled(false);
+        mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallClipRotateMultiple);
     }
 
     @Override
@@ -110,13 +114,34 @@ public class CircleConversationFragment extends Fragment implements ICommonView{
                 }
             }
         });
+        mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+            }
+
+            @Override
+            public void onLoadMore() {
+
+            }
+        });
     }
     private void initData() {
         Intent intent = getActivity().getIntent();
         id = intent.getIntExtra(CircleContentActivity.CIRCLE_ID, 100001);
         username = intent.getStringExtra(CircleConversationFragment.USER_NAME);
         user_image_url = intent.getStringExtra(CircleConversationFragment.USER_IMAGE_URL);
-        new ReceiveMessageAsyncTask().execute(ApiUtils.MESSAGES+"?search="+id);
+        if (ToastUtils.checkNetState(MyApplication.getInstance())) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    new ReceiveMessageAsyncTask().execute(ApiUtils.MESSAGES+"?search="+id);
+                    mRecyclerView.refreshComplete();
+                }
+            },500);
+        } else {
+            ToastUtils.showToast(mView.getContext(),"您的网络连接有误 请检查一下连接状态");
+        }
     }
     /**
      *  发送消息

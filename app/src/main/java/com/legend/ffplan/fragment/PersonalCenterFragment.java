@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +19,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.legend.ffplan.GuideAnimation.GuidePageActivity;
+import com.legend.ffplan.MainActivity;
 import com.legend.ffplan.R;
 import com.legend.ffplan.common.adapter.PersonalCenterFragmentAdapter;
 import com.legend.ffplan.common.util.SharedPreferenceUtils;
 import com.legend.ffplan.common.util.ToastUtils;
-import com.legend.ffplan.common.viewimplement.IPersonalCenter;
-import com.legend.ffplan.fragment.circlecenter.CircleConversationFragment;
+import com.legend.ffplan.common.viewimplement.ICommonView;
 import com.thinkcool.circletextimageview.CircleTextImageView;
 
 /**
@@ -31,15 +33,12 @@ import com.thinkcool.circletextimageview.CircleTextImageView;
  * @description 个人中心fragment
  */
 
-public class PersonalCenterFragment extends Fragment implements IPersonalCenter{
+public class PersonalCenterFragment extends Fragment implements ICommonView{
 
     private View mView;
     private ViewPager mViewPager;
-    // 定义为静态变量 传递到圈子页面
-    public static String user_image_url = "http://q1.qlogo.cn/g?b=qq&nk=2414605975&s=40";
-    public static String user_nick_name = "Legend";
     private PersonalCenterFragmentAdapter adapter;
-    private LinearLayout mycircle,backlog,finishedtask;
+    private TabLayout tabLayout;
     private TextView logout;
     private CircleTextImageView user_image;
     private TextView user_name;
@@ -58,15 +57,12 @@ public class PersonalCenterFragment extends Fragment implements IPersonalCenter{
     @Override
     public void initView() {
         adapter = new PersonalCenterFragmentAdapter(getChildFragmentManager());
-        mViewPager = mView.findViewById(R.id.center_viewpager);
-        mViewPager.setOffscreenPageLimit(3);
-        mViewPager.setAdapter(adapter);
+
         logout = mView.findViewById(R.id.logout);
         logout.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
 
-        intent = getActivity().getIntent();
-        user_image_url = intent.getStringExtra(CircleConversationFragment.USER_IMAGE_URL);
-        user_nick_name = intent.getStringExtra(CircleConversationFragment.USER_NAME);
+        String user_image_url = MainActivity.user_image_url;
+        String user_nick_name = MainActivity.user_nick_name;
 
         user_image = mView.findViewById(R.id.user_image);
         user_name = mView.findViewById(R.id.nick_name);
@@ -74,49 +70,21 @@ public class PersonalCenterFragment extends Fragment implements IPersonalCenter{
         user_name.setText(user_nick_name);
         Glide.with(getActivity().getApplicationContext())
                 .load(user_image_url).error(R.drawable.loading_01).into(user_image);
-        mycircle = mView.findViewById(R.id.task_1);
-        backlog = mView.findViewById(R.id.task_2);
-        finishedtask = mView.findViewById(R.id.task_3);
-        selectedItem(0);
+
+        tabLayout = mView.findViewById(R.id.tab_layout);
+        // 设置分割线
+        LinearLayout linearLayout = (LinearLayout)tabLayout.getChildAt(0);
+        linearLayout.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+        linearLayout.setDividerDrawable(ContextCompat.getDrawable(mView.getContext(),R.drawable.divider));
+        linearLayout.setDividerPadding(dip2px(12));
+
+        mViewPager = mView.findViewById(R.id.center_viewpager);
+        mViewPager.setAdapter(adapter);
+        tabLayout.setupWithViewPager(mViewPager,true);
     }
 
     @Override
     public void initListener() {
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                int currentItem = mViewPager.getCurrentItem();
-                selectedItem(currentItem);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        mycircle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedItem(0);
-            }
-        });
-        backlog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedItem(1);
-            }
-        });
-        finishedtask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectedItem(2);
-            }
-        });
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,7 +97,7 @@ public class PersonalCenterFragment extends Fragment implements IPersonalCenter{
                     public void onClick(DialogInterface dialog, int which) {
                         GuidePageActivity.mTencent.logout(getContext());
                         ToastUtils.showToast(mView.getContext(),"感谢您的使用");
-                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(SharedPreferenceUtils.OPENID,getActivity().MODE_PRIVATE);
+                            SharedPreferences sharedPreferences = getContext().getSharedPreferences(SharedPreferenceUtils.OPENID,getContext().MODE_PRIVATE);
                         sharedPreferences.edit().clear().commit();
                         getActivity().finish();
                     }
@@ -138,32 +106,9 @@ public class PersonalCenterFragment extends Fragment implements IPersonalCenter{
             }
         });
     }
-
-    /**
-     * 设置当前被选中的fragment
-     * @param position
-     */
-    @Override
-    public void selectedItem(int position) {
-        mViewPager.setCurrentItem(position);
-        switch (position) {
-            case 0:
-                mycircle.setBackground(getResources().getDrawable(R.color.green));
-                backlog.setBackground(getResources().getDrawable(R.color.transparency));
-                finishedtask.setBackground(getResources().getDrawable(R.color.transparency));
-                break;
-            case 1:
-                backlog.setBackground(getResources().getDrawable(R.color.green));
-                mycircle.setBackground(getResources().getDrawable(R.color.transparency));
-                finishedtask.setBackground(getResources().getDrawable(R.color.transparency));
-                break;
-            case 2:
-                finishedtask.setBackground(getResources().getDrawable(R.color.green));
-                backlog.setBackground(getResources().getDrawable(R.color.transparency));
-                mycircle.setBackground(getResources().getDrawable(R.color.transparency));
-                break;
-            default:
-                break;
-        }
+    //像素单位转换
+    public int dip2px(int dip) {
+        float density = getResources().getDisplayMetrics().density;
+        return (int) (dip * density + 0.5);
     }
 }
