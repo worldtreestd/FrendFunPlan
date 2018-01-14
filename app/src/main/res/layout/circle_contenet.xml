@@ -68,4 +68,11 @@
         app:layout_anchor="@id/appBar"
         app:layout_anchorGravity="bottom|end"/>
 
+    <com.legend.ffplan.common.view.HeartAnimationView
+        android:id="@+id/heart_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.legend.ffplan.common.view.HeartAnimationView>
+
 </android.support.design.widget.CoordinatorLayout>

@@ -2,14 +2,9 @@ package com.legend.ffplan.fragment.personalcenter;
 
 
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -27,7 +22,7 @@ import com.legend.ffplan.common.util.ApiUtils;
 import com.legend.ffplan.common.util.MyApplication;
 import com.legend.ffplan.common.util.SharedPreferenceUtils;
 import com.legend.ffplan.common.view.XRecyclerViewDivider;
-import com.legend.ffplan.common.viewimplement.ICommonView;
+import com.legend.ffplan.fragment.BaseFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,7 +37,7 @@ import java.util.List;
  * @description 我的圈子Fragment
  */
 
-public class MyCircleFragment extends Fragment implements ICommonView{
+public class MyCircleFragment extends BaseFragment{
 
     private View mView;
     private XRecyclerView mRecyclerView;
@@ -53,21 +48,15 @@ public class MyCircleFragment extends Fragment implements ICommonView{
     private JSONArray jsonArray1;
     private List<String> circle_list = new ArrayList<>();
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.mycircle_layout,container,false);
-        }
-        initView();
-        initData();
-        initListener();
-        return mView;
+    public int setResourceLayoutId() {
+        return R.layout.mycircle_layout;
     }
 
     @Override
     public void initView() {
-        mRecyclerView = mView.findViewById(R.id.mRecyclerView);
+        mView = getmView();
+        mRecyclerView = $(R.id.mRecyclerView);
         mRecyclerView.setPullRefreshEnabled(true);
         mRecyclerView.setLoadingMoreEnabled(true);
         mRecyclerView.setFootViewText("正在玩命加载中...⌇●﹏●⌇","亲(o~.~o) 我也是有底线的哦");
@@ -89,7 +78,7 @@ public class MyCircleFragment extends Fragment implements ICommonView{
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                initData();
+                refreshData();
             }
 
             @Override
@@ -98,7 +87,9 @@ public class MyCircleFragment extends Fragment implements ICommonView{
             }
         });
     }
-    private void initData() {
+
+    @Override
+    public void refreshData() {
         circle_list.clear();
         new Handler().postDelayed(new Runnable() {
             @Override

@@ -13,18 +13,20 @@
             android:title="@string/title_dashboard" />
 
         <item
-            android:id="@+id/navigation_notifications"
-            android:icon="@drawable/ic_notifications_black_24dp"
-            android:title="@string/title_notifications"/>
+            android:id="@+id/snow_anim"
+            android:icon="@drawable/snow_1"
+            android:title="下雪动画"/>
     </group>
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/about"
-            android:icon="@drawable/progressbar"
-            android:title="反馈建议" />
-        <item
-            android:id="@+id/settings"
-            android:icon="@drawable/ic_notifications_black_24dp"
-            android:title="关于" />
-    </group>
+    <item android:title="联系我们">
+        <menu>
+            <item
+                android:id="@+id/feedback"
+                android:icon="@drawable/heart_3"
+                android:title="反馈建议"/>
+            <item
+                android:id="@+id/about"
+                android:icon="@drawable/heart_2"
+                android:title="了解更多"/>
+        </menu>
+    </item>
 </menu>

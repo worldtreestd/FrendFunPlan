@@ -8,8 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -29,7 +27,6 @@ import com.legend.ffplan.common.util.ImageUtils;
 import com.legend.ffplan.common.util.MyApplication;
 import com.legend.ffplan.common.util.SharedPreferenceUtils;
 import com.legend.ffplan.common.util.ToastUtils;
-import com.legend.ffplan.common.viewimplement.ICommonView;
 import com.lljjcoder.Interface.OnCityItemClickListener;
 import com.lljjcoder.bean.CityBean;
 import com.lljjcoder.bean.DistrictBean;
@@ -49,8 +46,9 @@ import me.james.biuedittext.BiuEditText;
  * @description 创建圈子Activity
  */
 
-public class CreateCircleActivity extends AppCompatActivity implements ICommonView{
+public class CreateCircleActivity extends BaseActivity{
 
+    private View mView;
     private Toolbar toolbar;
     private CardView create_circle;
     private AppCompatImageView circle_image;
@@ -67,25 +65,22 @@ public class CreateCircleActivity extends AppCompatActivity implements ICommonVi
     private String desc;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_circle_layout);
-        initView();
-        initListener();
+    public int setResourceLayout() {
+        return R.layout.add_circle_layout;
     }
 
     @Override
     public void initView() {
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = $(R.id.toolbar);
         toolbar.setTitle("创建一个圈子！");
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
-        circle_image = findViewById(R.id.circle_image);
-        circle_name = findViewById(R.id.circle_name);
-        circle_address = findViewById(R.id.circle_address);
-        address_picker = findViewById(R.id.address_picker);
-        circle_content = findViewById(R.id.circle_content);
-        create_circle = findViewById(R.id.add_circle);
+        circle_image = $(R.id.circle_image);
+        circle_name = $(R.id.circle_name);
+        circle_address = $(R.id.circle_address);
+        address_picker = $(R.id.address_picker);
+        circle_content = $(R.id.circle_content);
+        create_circle = $(R.id.add_circle);
         dialog = ToastUtils.createLoadingDialog(this, getString(R.string.create_circle_loading));
     }
 

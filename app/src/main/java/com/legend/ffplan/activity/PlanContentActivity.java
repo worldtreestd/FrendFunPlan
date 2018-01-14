@@ -3,14 +3,10 @@ package com.legend.ffplan.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -25,7 +21,6 @@ import com.legend.ffplan.common.util.ApiUtils;
 import com.legend.ffplan.common.util.MyApplication;
 import com.legend.ffplan.common.util.SharedPreferenceUtils;
 import com.legend.ffplan.common.util.ToastUtils;
-import com.legend.ffplan.common.viewimplement.ICommonView;
 import com.legend.ffplan.fragment.personalcenter.BackLogFragment;
 
 import org.json.JSONException;
@@ -37,7 +32,7 @@ import org.json.JSONObject;
  * @description 计划详情界面
  */
 
-public class PlanContentActivity extends AppCompatActivity implements ICommonView {
+public class PlanContentActivity extends BaseActivity {
 
     public static final String PLAN_START_TIME = "plan_start_time";
     public static final String PLAN_END_TIME = "plan_end_time";
@@ -59,19 +54,15 @@ public class PlanContentActivity extends AppCompatActivity implements ICommonVie
     private JSONObject jsonObject;
     private String error_message;
     private int part_num;
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        mView = inflater.inflate(R.layout.plan_content,null);
-        super.onCreate(savedInstanceState);
-        setContentView(mView);
-        initView();
-        initListener();
+    public int setResourceLayout() {
+        return R.layout.plan_content;
     }
 
     @Override
     public void initView() {
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = $(R.id.toolbar);
         toolbar.setTitle("计划详情！");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -85,15 +76,15 @@ public class PlanContentActivity extends AppCompatActivity implements ICommonVie
         part_num = intent.getIntExtra(PlanContentActivity.PLAN_PART_NUM,0);
         String address = intent.getStringExtra(PlanContentActivity.PLAN_ADDRESS);
         status = intent.getStringExtra(BackLogFragment.STATUS);
-        join_plan_btn = findViewById(R.id.join_plan);
+        join_plan_btn = $(R.id.join_plan);
 
-        plan_start_time_tv = mView.findViewById(R.id.plan_start_time);
-        plan_end_time_tv = mView.findViewById(R.id.plan_end_time);
-        plan_created_tv = mView.findViewById(R.id.plan_created);
-        plan_content_tv = findViewById(R.id.plan_content);
-        plan_from_tv = findViewById(R.id.plan_from);
-        plan_address_tv = findViewById(R.id.plan_address);
-        plan_part_tv = findViewById(R.id.plan_part_num);
+        plan_start_time_tv = $(R.id.plan_start_time);
+        plan_end_time_tv = $(R.id.plan_end_time);
+        plan_created_tv = $(R.id.plan_created);
+        plan_content_tv = $(R.id.plan_content);
+        plan_from_tv = $(R.id.plan_from);
+        plan_address_tv = $(R.id.plan_address);
+        plan_part_tv = $(R.id.plan_part_num);
 
         plan_start_time_tv.setText("  计划开始时间： \n"+start_time);
         plan_content_tv.setText("详情："+content);
@@ -117,14 +108,14 @@ public class PlanContentActivity extends AppCompatActivity implements ICommonVie
         });
         join_plan_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mView.getContext());
+            public void onClick(final View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(PlanContentActivity.this);
                 builder.setTitle("您是否要加入该计划");
                 builder.setPositiveButton("是的", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         new PartPlanAsyncTask().execute(ApiUtils.PARTPLANS);
-                        Snackbar.make(mView, "您已经成功加入该计划", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(view, "您已经成功加入该计划", Snackbar.LENGTH_LONG).show();
                     }
                 });
                 builder.create().show();

@@ -6,9 +6,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -26,7 +23,6 @@ import com.legend.ffplan.common.util.ApiUtils;
 import com.legend.ffplan.common.util.MyApplication;
 import com.legend.ffplan.common.util.SharedPreferenceUtils;
 import com.legend.ffplan.common.util.ToastUtils;
-import com.legend.ffplan.common.viewimplement.ICommonView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,8 +35,9 @@ import me.james.biuedittext.BiuEditText;
  * @description 发布计划Activity
  */
 
-public class ReleasePlanActivity extends AppCompatActivity implements ICommonView{
+public class ReleasePlanActivity extends BaseActivity{
 
+    private View mView;
     private Toolbar toolbar;
     private BiuEditText set_date_end,plan_content,circle_id;
     private CardView release_plan;
@@ -52,24 +49,21 @@ public class ReleasePlanActivity extends AppCompatActivity implements ICommonVie
     private String time;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.release_plan_layout);
-        initView();
-        initListener();
+    public int setResourceLayout() {
+        return R.layout.release_plan_layout;
     }
 
     @TargetApi(Build.VERSION_CODES.N)
     @Override
     public void initView() {
-        toolbar = findViewById(R.id.toolbar);
+        toolbar = $(R.id.toolbar);
         toolbar.setTitle("发布一条计划！");
         toolbar.setTitleTextColor(getResources().getColor(R.color.white));
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
-        set_date_end = findViewById(R.id.date_end);
+        set_date_end = $(R.id.date_end);
         plan_content = findViewById(R.id.plan_content);
-        release_plan = findViewById(R.id.release_plan);
-        circle_id = findViewById(R.id.circle_id);
+        release_plan = $(R.id.release_plan);
+        circle_id = $(R.id.circle_id);
         dialog = ToastUtils.createLoadingDialog(this, getString(R.string.release_plan_loading));
     }
 

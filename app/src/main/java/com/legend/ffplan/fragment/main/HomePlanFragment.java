@@ -1,15 +1,10 @@
-package com.legend.ffplan.fragment;
+package com.legend.ffplan.fragment.main;
 
 import android.app.Dialog;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
@@ -26,7 +21,7 @@ import com.legend.ffplan.common.http.impl.BaseRequest;
 import com.legend.ffplan.common.http.impl.OkHttpClientImpl;
 import com.legend.ffplan.common.util.ApiUtils;
 import com.legend.ffplan.common.util.ToastUtils;
-import com.legend.ffplan.common.viewimplement.ICommonView;
+import com.legend.ffplan.fragment.BaseFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,7 +36,7 @@ import java.util.List;
  * @description 全部计划列表页面
  */
 
-public class HomePlanFragment extends Fragment implements ICommonView {
+public class HomePlanFragment extends BaseFragment {
 
     private View mView;
     private XRecyclerView mRecyclerView;
@@ -54,18 +49,11 @@ public class HomePlanFragment extends Fragment implements ICommonView {
     private int count;
     private Dialog dialog;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.home_layout,container,false);
-        }
-        initView();
-        refreshData();
-        initListener();
-        return mView;
+    public int setResourceLayoutId() {
+        return R.layout.home_layout;
     }
+
     @Override
     public void initListener() {
 
@@ -85,8 +73,8 @@ public class HomePlanFragment extends Fragment implements ICommonView {
     }
     @Override
     public void initView() {
-
-        mRecyclerView = mView.findViewById(R.id.mRecyclerView);
+        mView = getmView();
+        mRecyclerView = $(R.id.mRecyclerView);
         mRecyclerView.setPullRefreshEnabled(true);
         mRecyclerView.setLoadingMoreEnabled(true);
         mRecyclerView.setFootViewText("正在玩命加c载中...⌇●﹏●⌇","亲(o~.~o) 我也是有底线的哦");
@@ -105,7 +93,8 @@ public class HomePlanFragment extends Fragment implements ICommonView {
     /**
      *  刷新数据
      */
-    private void refreshData() {
+    @Override
+    public void refreshData() {
         plan_list.clear();
         mCurrentPageIndex = 1;
         new Handler().postDelayed(new Runnable() {

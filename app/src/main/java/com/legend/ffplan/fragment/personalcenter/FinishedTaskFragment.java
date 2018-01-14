@@ -1,13 +1,8 @@
 package com.legend.ffplan.fragment.personalcenter;
 
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.ProgressStyle;
@@ -15,7 +10,7 @@ import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.legend.ffplan.R;
 import com.legend.ffplan.common.Bean.HomePlanBean;
 import com.legend.ffplan.common.adapter.PlanListAdapter;
-import com.legend.ffplan.common.viewimplement.ICommonView;
+import com.legend.ffplan.fragment.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,28 +21,22 @@ import java.util.List;
  * @description 已完任务Fragment
  */
 
-public class FinishedTaskFragment extends Fragment implements ICommonView {
+public class FinishedTaskFragment extends BaseFragment {
 
     private View mView;
     private XRecyclerView mRecyclerView;
     private PlanListAdapter adapter;
     private List<HomePlanBean> plan_list = new ArrayList<>();
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.finishedtask_layout,container,false);
-        }
-        initData();
-        initView();
-        initListener();
-        return mView;
+    public int setResourceLayoutId() {
+        return R.layout.finishedtask_layout;
     }
 
     @Override
     public void initView() {
-        mRecyclerView = mView.findViewById(R.id.mRecyclerView);
+        mView = getmView();
+        mRecyclerView = $(R.id.mRecyclerView);
         mRecyclerView.setPullRefreshEnabled(true);
         mRecyclerView.setLoadingMoreEnabled(true);
         mRecyclerView.getFootView().setMinimumHeight(400);
@@ -76,6 +65,12 @@ public class FinishedTaskFragment extends Fragment implements ICommonView {
             }
         });
     }
+
+    @Override
+    public void refreshData() {
+
+    }
+
     private void initData() {
         plan_list.clear();
         new Handler().postDelayed(new Runnable() {

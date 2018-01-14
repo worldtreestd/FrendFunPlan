@@ -2,15 +2,12 @@ package com.legend.ffplan.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,7 +24,7 @@ import com.legend.ffplan.common.util.ApiUtils;
 import com.legend.ffplan.common.util.MyApplication;
 import com.legend.ffplan.common.util.SharedPreferenceUtils;
 import com.legend.ffplan.common.util.ToastUtils;
-import com.legend.ffplan.common.viewimplement.ICommonView;
+import com.legend.ffplan.common.view.HeartAnimationView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,7 +35,7 @@ import org.json.JSONObject;
  * @description 圈子详情界面
  */
 
-public class CircleContentActivity extends AppCompatActivity implements ICommonView {
+public class CircleContentActivity extends BaseActivity {
 
     public static final String CIRCLE_NAME ="circle_name";
     public static final String CIRCLE_IMAGE_URL= "circle_image_URL";
@@ -58,26 +55,21 @@ public class CircleContentActivity extends AppCompatActivity implements ICommonV
     private FloatingActionButton join_circle_btn;
     private ImageView circle_image;
     private int circle_id;
-
+    private HeartAnimationView heartAnimationView;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        LayoutInflater inflater = (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        mView = inflater.inflate(R.layout.circle_contenet,null);
-        setContentView(mView);
-        initView();
-        initListener();
+    public int setResourceLayout() {
+        return R.layout.circle_contenet;
     }
-
     @Override
     public void initView() {
         Intent intent = getIntent();
         String circle_image_url = intent.getStringExtra(CIRCLE_IMAGE_URL);
         String circle_name = intent.getStringExtra(CIRCLE_NAME);
         circle_id = intent.getIntExtra(CircleContentActivity.CIRCLE_ID,100000);
-        toolbar = findViewById(R.id.toolbar);
-        join_circle_btn = findViewById(R.id.join_circle);
+        toolbar = $(R.id.toolbar);
+        join_circle_btn = $(R.id.join_circle);
+        heartAnimationView = $(R.id.heart_view);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -86,7 +78,7 @@ public class CircleContentActivity extends AppCompatActivity implements ICommonV
                 finish();
             }
         });
-        collaspingtoolbar = findViewById(R.id.collapsing);
+        collaspingtoolbar = $(R.id.collapsing);
         collaspingtoolbar.setTitle(circle_name);
         // 设置收缩时title的位置
         collaspingtoolbar.setCollapsedTitleGravity(Gravity.TOP);
@@ -94,19 +86,28 @@ public class CircleContentActivity extends AppCompatActivity implements ICommonV
         collaspingtoolbar.setExpandedTitleGravity(Gravity.CENTER_VERTICAL);
         adapter = new CircleFragmentAdapter(getSupportFragmentManager());
 
-        circle_image = findViewById(R.id.circle_content_image);
+        circle_image = $(R.id.circle_content_image);
 
 
         Glide.with(this).load(circle_image_url).into(circle_image);
 
-        tabLayout = findViewById(R.id.tab_layout);
-        mViewPager = findViewById(R.id.mViewPager);
+        tabLayout = $(R.id.tab_layout);
+        mViewPager = $(R.id.mViewPager);
         mViewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(mViewPager,true);
 
     }
     @Override
     public void initListener() {
+        final Handler handler = new Handler();
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                heartAnimationView.addHeart();
+                handler.postDelayed(this,800);
+            }
+        };
+        handler.postDelayed(runnable,800);
         join_circle_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

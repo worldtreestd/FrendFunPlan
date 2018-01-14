@@ -1,14 +1,9 @@
 package com.legend.ffplan.fragment.personalcenter;
 
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -25,7 +20,7 @@ import com.legend.ffplan.common.http.impl.OkHttpClientImpl;
 import com.legend.ffplan.common.util.ApiUtils;
 import com.legend.ffplan.common.util.MyApplication;
 import com.legend.ffplan.common.util.SharedPreferenceUtils;
-import com.legend.ffplan.common.viewimplement.ICommonView;
+import com.legend.ffplan.fragment.BaseFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +35,7 @@ import java.util.List;
  * @description 待办事项Fragment
  */
 
-public class BackLogFragment extends Fragment implements ICommonView {
+public class BackLogFragment extends BaseFragment {
     private View mView;
     public static final String STATUS = "status";
     private BackLogAdapter adapter;
@@ -51,20 +46,15 @@ public class BackLogFragment extends Fragment implements ICommonView {
     private JSONArray jsonArray;
     private List<String> plan_list = new ArrayList<>();
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.backlog_layout,container,false);
-        }
-        initView();
-        initListener();
-        return mView;
+    public int setResourceLayoutId() {
+        return R.layout.backlog_layout;
     }
 
     @Override
     public void initView() {
-        mRecyclerView = mView.findViewById(R.id.mRecyclerView);
+        mView = getmView();
+        mRecyclerView = $(R.id.mRecyclerView);
         mRecyclerView.setPullRefreshEnabled(true);
         mRecyclerView.setLoadingMoreEnabled(true);
         mRecyclerView.getFootView().setMinimumHeight(400);

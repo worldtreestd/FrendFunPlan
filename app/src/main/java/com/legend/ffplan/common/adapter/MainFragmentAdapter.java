@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.legend.ffplan.fragment.HomePlanFragment;
-import com.legend.ffplan.fragment.HomeCircleFragment;
-import com.legend.ffplan.fragment.PersonalCenterFragment;
+import com.legend.ffplan.fragment.main.HomePlanFragment;
+import com.legend.ffplan.fragment.main.HomeCircleFragment;
+import com.legend.ffplan.fragment.main.PersonalCenterFragment;
 
 import java.util.ArrayList;
 import java.util.List;

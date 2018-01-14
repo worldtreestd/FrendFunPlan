@@ -55,11 +55,13 @@
             android:layout_alignBaseline="@+id/content"
             android:layout_alignBottom="@+id/content"
             android:layout_toEndOf="@+id/content"
-            android:text="xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+            android:text="xxxxxx"
+            android:maxEms="12"
+            android:ellipsize="middle"
+            android:lines="2"
             android:textSize="18sp"
             android:textColor="@color/white"
-            android:maxEms="30"
-            android:ellipsize="end"
+
             />
 
     </RelativeLayout>

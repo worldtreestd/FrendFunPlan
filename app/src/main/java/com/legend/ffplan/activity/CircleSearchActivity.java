@@ -155,7 +155,7 @@ public class CircleSearchActivity extends AppCompatActivity implements ICommonVi
             @Override
             public void run() {
                 new CircleSearchAsyncTask()
-                            .execute(ApiUtils.SEARCH + query);
+                        .execute(ApiUtils.SEARCH + query);
                 mRecyclerView.refreshComplete();
             }
         },500);

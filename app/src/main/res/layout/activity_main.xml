@@ -72,6 +72,12 @@
 
 </android.support.constraint.ConstraintLayout>
 
+    <com.legend.ffplan.common.view.SnowAnimationView
+        android:id="@+id/snow_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.legend.ffplan.common.view.SnowAnimationView>
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
@@ -79,5 +85,6 @@
         android:layout_gravity="start"
         app:menu="@menu/navigation_drawer_menu"
         app:headerLayout="@layout/nav_header"/>
+
 
 </android.support.v4.widget.DrawerLayout>
