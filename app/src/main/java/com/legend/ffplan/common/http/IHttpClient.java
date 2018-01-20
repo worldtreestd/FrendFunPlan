@@ -14,4 +14,5 @@ public interface IHttpClient {
     IResponse post(IRequest request);
     IResponse upload_image_post(IRequest request, Map<String,Object> map, File file);
     IResponse delete(IRequest request);
+    IResponse put(IRequest request);
 }

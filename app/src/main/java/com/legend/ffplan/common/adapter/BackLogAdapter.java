@@ -34,6 +34,7 @@ public class BackLogAdapter extends PlanListAdapter {
     private Context mContext;
     private List<HomePlanBean> mHomePlanList;
     private Button delete_plan_btn;
+    private Button finished_plan_btn;
     private  BackLogFragment backLogFragment;
     public BackLogAdapter(List<HomePlanBean> PlanList) {
         super(PlanList);
@@ -46,8 +47,17 @@ public class BackLogAdapter extends PlanListAdapter {
         }
         View view = LayoutInflater.from(mContext).inflate(R.layout.backlog_list,parent,false);
         delete_plan_btn = view.findViewById(R.id.delete_plan);
+        finished_plan_btn = view.findViewById(R.id.finished_btn);
         final ViewHolder holder = new ViewHolder(view);
 
+        finished_plan_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int position = holder.getAdapterPosition()-1;
+                HomePlanBean mPlanBeans = mHomePlanList.get(position);
+                new UpdatePlanAsyncTask().execute(ApiUtils.PLANS+mPlanBeans.getId()+"/", String.valueOf(mPlanBeans.getFrom_circle()));
+            }
+        });
         delete_plan_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +110,33 @@ public class BackLogAdapter extends PlanListAdapter {
             } else {
                 ToastUtils.showToast(MyApplication.getInstance(),"未知的错误");
             }
+            notifyDataSetChanged();
         }
     }
-}
+    class UpdatePlanAsyncTask extends AsyncTask<String,Void,IResponse> {
+
+        @Override
+        protected IResponse doInBackground(String... strings) {
+            IRequest request = new BaseRequest(strings[0]);
+            SharedPreferenceUtils shared = new SharedPreferenceUtils(MyApplication.getInstance(),SharedPreferenceUtils.COOKIE);
+            request.setHeader("Authorization","JWT "+shared.get(SharedPreferenceUtils.ACCOUNTJWT));
+            request.setBody("is_finished",true);
+            request.setBody("from_circle",strings[1]);
+            IHttpClient mHttpClient = new OkHttpClientImpl();
+            IResponse response = mHttpClient.put(request);
+            return response;
+        }
+        @Override
+        protected void onPostExecute(IResponse iResponse) {
+            super.onPostExecute(iResponse);
+            if (iResponse.getCode() == 200) {
+                ToastUtils.showToast(MyApplication.getInstance(),"您已成功完成该条计划，请尝试刷新");
+            } else if (iResponse.getCode() == 403) {
+                ToastUtils.showToast(MyApplication.getInstance(),"您没有该操作权限");
+            } else {
+                ToastUtils.showToast(MyApplication.getInstance(),"未知的错误");
+            }
+            notifyDataSetChanged();
+        }
+    }
+    }

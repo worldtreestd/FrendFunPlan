@@ -2,22 +2,13 @@ package com.legend.ffplan.fragment.circlecenter;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.legend.ffplan.R;
 import com.legend.ffplan.activity.CircleContentActivity;
@@ -32,7 +23,7 @@ import com.legend.ffplan.common.util.ApiUtils;
 import com.legend.ffplan.common.util.MyApplication;
 import com.legend.ffplan.common.util.SharedPreferenceUtils;
 import com.legend.ffplan.common.util.ToastUtils;
-import com.legend.ffplan.common.viewimplement.ICommonView;
+import com.legend.ffplan.fragment.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +36,7 @@ import me.james.biuedittext.BiuEditText;
  * @description 圈友会话
  */
 
-public class CircleConversationFragment extends Fragment implements ICommonView{
+public class CircleConversationFragment extends BaseFragment {
 
     private View mView;
     /**
@@ -69,36 +60,31 @@ public class CircleConversationFragment extends Fragment implements ICommonView{
     private String content;
     private int id;
 
-    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // 防止软件盘挡住输入框
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.circle_conversation_layout,container,false);
-        }
-        initView();
-        initData();
-        initListener();
-        return mView;
+    public int setResourceLayoutId() {
+        return R.layout.circle_conversation_layout;
+    }
+
+    @Override
+    public int setRecyclerViewId() {
+        return R.id.mRecyclerView;
     }
 
     @Override
     public void initView() {
-        mRecyclerView = mView.findViewById(R.id.mRecyclerView);
+        // 防止键盘挡住输入框
+        mView = getmView();
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         send_message = mView.findViewById(R.id.send_message);
         input_message = mView.findViewById(R.id.input_message);
         adapter = new CircleMessageAdapter(messageBeanList);
-        LinearLayoutManager manager = new LinearLayoutManager(mView.getContext());
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setLoadingMoreEnabled(false);
-        mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallClipRotateMultiple);
     }
 
     @Override
     public void initListener() {
+        mRecyclerView = getmRecyclerView();
+        mRecyclerView.setLoadingMoreEnabled(false);
+        mRecyclerView.setAdapter(adapter);
         adapter.notifyItemInserted(messageBeanList.size() - 1);
         send_message.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +112,12 @@ public class CircleConversationFragment extends Fragment implements ICommonView{
             }
         });
     }
+
+    @Override
+    public void refreshData() {
+
+    }
+
     private void initData() {
         Intent intent = getActivity().getIntent();
         id = intent.getIntExtra(CircleContentActivity.CIRCLE_ID, 100001);

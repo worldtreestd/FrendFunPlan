@@ -44,6 +44,11 @@ public class PersonalCenterFragment extends BaseFragment{
         return R.layout.personalcenter_layout;
     }
 
+    @Override
+    public int setRecyclerViewId() {
+        return 0;
+    }
+
     @SuppressLint("WrongViewCast")
     @Override
     public void initView() {

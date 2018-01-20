@@ -3,13 +3,10 @@ package com.legend.ffplan.fragment.main;
 import android.app.Dialog;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.legend.ffplan.R;
 import com.legend.ffplan.common.Bean.HomePlanBean;
@@ -55,8 +52,13 @@ public class HomePlanFragment extends BaseFragment {
     }
 
     @Override
-    public void initListener() {
+    public int setRecyclerViewId() {
+        return R.id.mRecyclerView;
+    }
 
+    @Override
+    public void initListener() {
+        mRecyclerView.setAdapter(adapter);
 
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
@@ -74,20 +76,8 @@ public class HomePlanFragment extends BaseFragment {
     @Override
     public void initView() {
         mView = getmView();
-        mRecyclerView = $(R.id.mRecyclerView);
-        mRecyclerView.setPullRefreshEnabled(true);
-        mRecyclerView.setLoadingMoreEnabled(true);
-        mRecyclerView.setFootViewText("正在玩命加c载中...⌇●﹏●⌇","亲(o~.~o) 我也是有底线的哦");
-        // 设置footview的最小高度 需要设置在导航栏上 否则会被遮盖
-        mRecyclerView.getFootView().setMinimumHeight(400);
-        mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallRotate);
-        mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallClipRotateMultiple);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mView.getContext());
-        linearLayoutManager.setOrientation(LinearLayout.VERTICAL);
         dialog = ToastUtils.createLoadingDialog(mView.getContext(),getString(R.string.common_loading));
-        mRecyclerView.setLayoutManager(linearLayoutManager);
         adapter = new PlanListAdapter(plan_list);
-        mRecyclerView.setAdapter(adapter);
     }
 
     /**
@@ -95,6 +85,7 @@ public class HomePlanFragment extends BaseFragment {
      */
     @Override
     public void refreshData() {
+        mRecyclerView = getmRecyclerView();
         plan_list.clear();
         mCurrentPageIndex = 1;
         new Handler().postDelayed(new Runnable() {
@@ -159,7 +150,7 @@ public class HomePlanFragment extends BaseFragment {
             for (HomePlanBean plan : homePlanBeans) {
                 homePlanBean =
                         new HomePlanBean(plan.getId(),plan.getAdd_time(),plan.getContent(),plan.getFrom_circle_name(),plan.getUser(),
-                                plan.getAddress(),plan.getUsers_num(),plan.getEnd_time().replace("T","-").substring(0,19));
+                                plan.getAddress(),plan.getUsers_num(),plan.getEnd_time().replace("T","-").substring(0,19),plan.getFrom_circle());
                 plan_list.add(homePlanBean);
             }
             adapter.notifyDataSetChanged();

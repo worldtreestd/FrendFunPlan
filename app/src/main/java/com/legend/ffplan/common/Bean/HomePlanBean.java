@@ -20,6 +20,7 @@ public class HomePlanBean {
 
     private int id;
     private String from_circle_name;
+    private int from_circle;
     private String user;
     private String end_time;
     private String content;
@@ -27,12 +28,13 @@ public class HomePlanBean {
     private int users_num;
     private String add_time;
 
+
     public HomePlanBean(String startTime, String content, String from) {
         this.add_time = startTime;
         this.content = content;
         this.from_circle_name = from;
     }
-    public HomePlanBean(int id,String startTime, String content, String from,String user,String address,int users_num,String end_time) {
+    public HomePlanBean(int id,String startTime, String content, String from,String user,String address,int users_num,String end_time,int from_circle) {
         this.id = id;
         this.add_time = startTime;
         this.content = content;
@@ -41,6 +43,7 @@ public class HomePlanBean {
         this.address = address;
         this.users_num = users_num;
         this.end_time = end_time;
+        this.from_circle = from_circle;
     }
 
     public String getFrom_circle_name() {
@@ -105,5 +108,13 @@ public class HomePlanBean {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getFrom_circle() {
+        return from_circle;
+    }
+
+    public void setFrom_circle(int from_circle) {
+        this.from_circle = from_circle;
     }
 }

@@ -41,7 +41,7 @@ public class AccountManageUtils {
     }
 
     /**
-     *  通过本地JWT方式完成登录
+     *  通过本地JWT方式完成验证
      */
     public void loginByJWT() {
         if (!TextUtils.isEmpty(jwt)) {

@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.legend.ffplan.R;
 import com.legend.ffplan.common.Bean.HomeCircleBean;
@@ -58,27 +57,22 @@ public class HomeCircleFragment extends BaseFragment {
     }
 
     @Override
+    public int setRecyclerViewId() {
+        return R.id.mRecyclerView;
+    }
+
+    @Override
     public void initView() {
         mView = getmView();
-        mRecyclerView = $(R.id.mRecyclerView);
-        mRecyclerView.setPullRefreshEnabled(true);
-        mRecyclerView.setLoadingMoreEnabled(true);
-        mRecyclerView.setFootViewText("正在玩命加载中...⌇●﹏●⌇","亲(o~.~o) 我也是有底线的哦");
-        mRecyclerView.getFootView().setMinimumHeight(400);
-        mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallRotate);
-        mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallClipRotateMultiple);
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        manager.setSmoothScrollbarEnabled(true);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
         dialog = ToastUtils.createLoadingDialog(mView.getContext(),getString(R.string.common_loading));
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.addItemDecoration(new XRecyclerViewDivider(mView.getContext(),LinearLayoutManager.HORIZONTAL));
         adapter = new CircleListAdapter(circleList);
-        mRecyclerView.setAdapter(adapter);
     }
 
     @Override
     public void initListener() {
+        mRecyclerView = getmRecyclerView();
+        mRecyclerView.addItemDecoration(new XRecyclerViewDivider(mView.getContext(), LinearLayoutManager.HORIZONTAL));
+        mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
              public void onRefresh() {

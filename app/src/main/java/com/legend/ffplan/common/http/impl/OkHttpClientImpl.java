@@ -106,6 +106,23 @@ public class OkHttpClientImpl implements IHttpClient {
         return execute(okRequest);
     }
 
+    @Override
+    public IResponse put(IRequest request) {
+        request.setMethod(IRequest.PUT);
+        MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
+        RequestBody requestBody = RequestBody.create(mediaType,request.getBody().toString());
+
+        Map<String,String> header = request.getHeader();
+        Request.Builder builder = new Request.Builder();
+        for (String key : header.keySet()) {
+            builder.header(key,header.get(key));
+        }
+        builder.url(request.getUrl())
+                .put(requestBody);
+        Request okRequest = builder.build();
+        return execute(okRequest);
+    }
+
     private IResponse execute(Request request) {
         BaseResponse commonResponse = new BaseResponse();
         try {

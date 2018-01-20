@@ -4,14 +4,8 @@
     android:layout_margin="5dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <android.support.design.widget.AppBarLayout
-        android:background="#ffffff"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
     <com.jcodecraeer.xrecyclerview.XRecyclerView
         android:id="@+id/mRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    </android.support.design.widget.AppBarLayout>
 </android.support.constraint.ConstraintLayout>

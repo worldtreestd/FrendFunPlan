@@ -2,12 +2,10 @@ package com.legend.ffplan.fragment.personalcenter;
 
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.legend.ffplan.R;
 import com.legend.ffplan.common.Bean.HomePlanBean;
@@ -40,10 +38,10 @@ public class BackLogFragment extends BaseFragment {
     public static final String STATUS = "status";
     private BackLogAdapter adapter;
     private XRecyclerView mRecyclerView;
-    private List<HomePlanBean> plan_List = new ArrayList<>();
     private HomePlanBean homePlanBean;
     private BackLogAsyncTask asyncTask;
     private JSONArray jsonArray;
+    private List<HomePlanBean> plan_List = new ArrayList<>();
     private List<String> plan_list = new ArrayList<>();
 
     @Override
@@ -52,25 +50,23 @@ public class BackLogFragment extends BaseFragment {
     }
 
     @Override
+    public int setRecyclerViewId() {
+        return R.id.mRecyclerView;
+    }
+
+    @Override
     public void initView() {
         mView = getmView();
-        mRecyclerView = $(R.id.mRecyclerView);
-        mRecyclerView.setPullRefreshEnabled(true);
-        mRecyclerView.setLoadingMoreEnabled(true);
-        mRecyclerView.getFootView().setMinimumHeight(400);
-        mRecyclerView.setFootViewText("正在玩命加载中...⌇●﹏●⌇","亲(o~.~o) 恭喜你没有待办事项了哦");
-        mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallRotate);
-        mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallClipRotateMultiple);
-        LinearLayoutManager manager = new LinearLayoutManager(mView.getContext());
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(manager);
         adapter = new BackLogAdapter(plan_List);
-        mRecyclerView.setAdapter(adapter);
         refreshData();
     }
 
     @Override
     public void initListener() {
+        mRecyclerView = getmRecyclerView();
+        mRecyclerView.setFootViewText("正在玩命加载中...⌇●﹏●⌇","亲(o~.~o) 恭喜你没有待办事项了哦");
+        mRecyclerView.setAdapter(adapter);
+
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
@@ -91,7 +87,7 @@ public class BackLogFragment extends BaseFragment {
             @Override
             public void run() {
 
-                  new BackLogAsyncTask().execute(ApiUtils.PARTPLANS);
+                  new BackLogAsyncTask().execute(ApiUtils.PARTPLANS+"?search=0");
                 mRecyclerView.refreshComplete();
             }
         },500);
@@ -132,7 +128,7 @@ public class BackLogFragment extends BaseFragment {
             for (HomePlanBean plan : homePlanBeans) {
                 homePlanBean =
                         new HomePlanBean(plan.getId(),plan.getAdd_time(),plan.getContent(),plan.getFrom_circle_name(),plan.getUser(),
-                                plan.getAddress(),plan.getUsers_num(),plan.getEnd_time().replace("T","-").substring(0,19));
+                                plan.getAddress(),plan.getUsers_num(),plan.getEnd_time().replace("T","-").substring(0,19),plan.getFrom_circle());
                 plan_List.add(homePlanBean);
             }
             adapter.notifyDataSetChanged();

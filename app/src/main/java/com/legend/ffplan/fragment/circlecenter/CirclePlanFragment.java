@@ -2,18 +2,11 @@ package com.legend.ffplan.fragment.circlecenter;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.jcodecraeer.xrecyclerview.ProgressStyle;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.legend.ffplan.R;
 import com.legend.ffplan.activity.CircleContentActivity;
@@ -26,7 +19,7 @@ import com.legend.ffplan.common.http.impl.BaseRequest;
 import com.legend.ffplan.common.http.impl.OkHttpClientImpl;
 import com.legend.ffplan.common.util.ApiUtils;
 import com.legend.ffplan.common.util.ToastUtils;
-import com.legend.ffplan.common.viewimplement.ICommonView;
+import com.legend.ffplan.fragment.BaseFragment;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,7 +33,7 @@ import java.util.List;
  * @description 圈子内的计划
  */
 
-public class CirclePlanFragment extends Fragment implements ICommonView {
+public class CirclePlanFragment extends BaseFragment {
 
     private View mView;
     private XRecyclerView mRecyclerView;
@@ -50,40 +43,29 @@ public class CirclePlanFragment extends Fragment implements ICommonView {
     private HomePlanBean homePlanBean = new HomePlanBean("","","");
     private CirclePlanAsyncTask asyncTask;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if (mView == null) {
-            mView = inflater.inflate(R.layout.circle_plan_layout,container,false);
-        }
-        initView();
-        initData();
-        initListener();
-        return mView;
+    public int setResourceLayoutId() {
+        return R.layout.circle_plan_layout;
+    }
+
+    @Override
+    public int setRecyclerViewId() {
+        return R.id.mRecyclerView;
     }
 
 
     @Override
     public void initView() {
-
-        mRecyclerView = mView.findViewById(R.id.mRecyclerView);
-        mRecyclerView.setPullRefreshEnabled(true);
-        mRecyclerView.setLoadingMoreEnabled(true);
-        mRecyclerView.getFootView().setMinimumHeight(200);
-        mRecyclerView.setFootViewText("正在玩命加载中...⌇●﹏●⌇","亲(o~.~o) 我也是有底线的哦");
-        LinearLayoutManager manager = new LinearLayoutManager(mView.getContext());
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        mRecyclerView.setLayoutManager(manager);
-        mRecyclerView.setRefreshProgressStyle(ProgressStyle.BallRotate);
-        mRecyclerView.setLoadingMoreProgressStyle(ProgressStyle.BallClipRotateMultiple);
+        mView = getmView();
     }
 
     @Override
     public void initListener() {
+        mRecyclerView.getFootView().setMinimumHeight(200);
         mRecyclerView.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                initData();
+                refreshData();
             }
 
             @Override
@@ -92,16 +74,19 @@ public class CirclePlanFragment extends Fragment implements ICommonView {
             }
         });
     }
-    private void initData() {
+
+    @Override
+    public void refreshData() {
+        mRecyclerView = getmRecyclerView();
         Intent intent = getActivity().getIntent();
-        int circle_id = intent.getIntExtra(CircleContentActivity.CIRCLE_ID,0);
+        int circle_id = intent.getIntExtra(CircleContentActivity.CIRCLE_ID, 0);
         if (ToastUtils.checkNetState(mView.getContext())) {
             if (asyncTask == null) {
-                asyncTask = (CirclePlanAsyncTask) new CirclePlanAsyncTask().execute(ApiUtils.CIRCLES+circle_id);
+                asyncTask = (CirclePlanAsyncTask) new CirclePlanAsyncTask().execute(ApiUtils.CIRCLES + circle_id);
             }
             mRecyclerView.refreshComplete();
         } else {
-            ToastUtils.showToast(mView.getContext(),"您的网络连接有误 请检查一下连接状态");
+            ToastUtils.showToast(mView.getContext(), "您的网络连接有误 请检查一下连接状态");
         }
     }
     private void loadMoreData() {
@@ -148,7 +133,7 @@ public class CirclePlanFragment extends Fragment implements ICommonView {
             for (HomePlanBean plan : homePlanBeans) {
                 homePlanBean =
                         new HomePlanBean(plan.getId(),plan.getAdd_time(),plan.getContent(),plan.getFrom_circle_name(),plan.getUser(),
-                                plan.getAddress(),plan.getUsers_num(),plan.getEnd_time());
+                                plan.getAddress(),plan.getUsers_num(),plan.getEnd_time(),plan.getFrom_circle());
                 plan_list.add(homePlanBean);
             }
             adapter = new PlanListAdapter(plan_list);
