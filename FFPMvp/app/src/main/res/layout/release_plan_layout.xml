@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.legend.ffpmvp.common.view.RubberScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<LinearLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:title="@string/release_plan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <me.james.biuedittext.BiuEditText
+            android:id="@+id/date_end"
+            android:layout_marginTop="10dp"
+            android:textSize="18sp"
+            android:hint="请选择计划结束的时间"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:drawableRight="@drawable/ic_calender"
+            android:background="@drawable/shape"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:biu_duration="800"
+            app:biu_text_color="#28e9ec"
+            app:biu_text_scale="1.5"
+            app:biu_type="flyup"
+            app:biu_text_start_size="18sp"/>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp">
+
+        <me.james.biuedittext.BiuEditText
+            android:id="@+id/plan_content"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_margin="10dp"
+            android:hint="请输入计划详情!"
+            android:background="@drawable/shape"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            app:biu_duration="800"
+            app:biu_text_color="#28e9ec"
+            app:biu_text_scale="1.5"
+            app:biu_type="flyup"
+            app:biu_text_start_size="18sp"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp">
+
+    <me.james.biuedittext.BiuEditText
+            android:id="@+id/circle_id"
+            android:layout_margin="10dp"
+            android:textSize="20sp"
+            android:inputType="number"
+            android:maxLength="9"
+            android:gravity="center"
+            android:hint="输入要发布的6位数圈子号"
+            android:background="@drawable/shape"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:biu_text_color="#28e9ec"
+            app:biu_duration="800"
+            app:biu_text_scale="1.5"
+            app:biu_type="flyup"/>
+
+    </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/release_plan"
+            android:layout_margin="10dp"
+            android:foreground="@drawable/card_foreground_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="10dp"
+            app:cardBackgroundColor="#3e99e8"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:textColor="#ffffff"
+                android:textSize="27sp"
+                android:layout_gravity="center"
+                android:text="发布计划!"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+</com.legend.ffpmvp.common.view.RubberScrollView>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="130dp"
+    android:layout_margin="6dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="10dp"
+    android:foreground="@drawable/card_foreground"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    app:cardBackgroundColor="@color/cardview_shadow_start_color"
+    android:id="@+id/cardview"
+    android:orientation="vertical"
+    app:cardElevation="5dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/plan_from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="  From: 湖南信息职业技术学院        "
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/plan_start_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/plan_from"
+            android:layout_alignBottom="@+id/plan_from"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/white"
+            android:layout_marginEnd="13dp"
+            android:maxEms="19"
+            android:text="yyyy/mm/dd"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:text=" 详情："
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+
+        <TextView
+            android:id="@+id/plan_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/content"
+            android:layout_alignBottom="@+id/content"
+            android:layout_toEndOf="@+id/content"
+            android:text="xxxxxx"
+            android:maxEms="12"
+            android:ellipsize="middle"
+            android:lines="2"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+
+            />
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+ <android.support.design.widget.AppBarLayout
+     android:id="@+id/appBar"
+     android:fitsSystemWindows="true"
+     android:layout_width="match_parent"
+     android:layout_height="300dp">
+     <android.support.design.widget.CollapsingToolbarLayout
+         android:id="@+id/collapsing"
+         android:fitsSystemWindows="true"
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         app:contentScrim="?attr/colorPrimary"
+         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+         app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+         <ImageView
+             android:src="@drawable/loading_01"
+             android:id="@+id/circle_content_image"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:scaleType="centerCrop"
+             android:fitsSystemWindows="true"
+             app:layout_collapseParallaxMultiplier="0.8"
+             app:layout_collapseMode="parallax"/>
+         <android.support.v7.widget.Toolbar
+             android:id="@+id/toolbar"
+             android:layout_width="match_parent"
+             android:layout_height="90dp"
+             app:titleMarginTop="15dp"
+             android:minHeight="?attr/actionBarSize"
+             app:layout_collapseMode="pin">
+
+         </android.support.v7.widget.Toolbar>
+
+         <android.support.design.widget.TabLayout
+             android:id="@+id/tab_layout"
+             android:layout_width="match_parent"
+             android:layout_height="?attr/actionBarSize"
+             android:layout_gravity="bottom"
+             app:tabTextAppearance="@style/TabTextSize"
+             app:tabIndicatorColor="@color/green"
+             app:tabSelectedTextColor="@color/green"
+             app:tabTextColor="#ffffff" />
+
+     </android.support.design.widget.CollapsingToolbarLayout>
+
+ </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/join_circle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/add"
+        app:layout_anchor="@id/appBar"
+        app:layout_anchorGravity="bottom|end"/>
+
+    <com.legend.ffplan.common.view.HeartAnimationView
+        android:id="@+id/heart_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.legend.ffplan.common.view.HeartAnimationView>
+
+</android.support.design.widget.CoordinatorLayout>

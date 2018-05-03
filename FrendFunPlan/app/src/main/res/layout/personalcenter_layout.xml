@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.thinkcool.circletextimageview.CircleTextImageView
+            android:id="@+id/user_image"
+            android:textDirection="firstStrong"
+            android:src="@mipmap/ic_launcher_round"
+            app:citv_border_width="2dp"
+            app:citv_border_color="@color/light_blue"
+            android:layout_width="100dp"
+            android:layout_height="100dp" />
+
+        <LinearLayout
+            android:layout_marginLeft="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/nick_name"
+                android:text="用户名"
+                android:textSize="30sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/logout"
+                android:layout_marginTop="15dp"
+                android:text="退出登录！"
+                android:textSize="17sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+        <TextView
+            android:textSize="12sp"
+            android:text="马不停蹄"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/shape"
+            android:layout_width="40dp"
+            android:layout_height="80dp" />
+
+    </LinearLayout>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_layout"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_gravity="bottom"
+        app:tabTextAppearance="@style/TabTextSize"
+        app:tabIndicatorColor="@color/green"
+        app:tabSelectedTextColor="@color/green"
+        app:tabTextColor="@color/transparency" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/center_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+
+</LinearLayout>

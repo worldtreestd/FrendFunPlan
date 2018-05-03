@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/mRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </com.jcodecraeer.xrecyclerview.XRecyclerView>
+
+    <LinearLayout
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <me.james.biuedittext.BiuEditText
+            android:background="@drawable/shape"
+            android:id="@+id/input_message"
+            android:hint="说点什么呢..."
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginRight="5dp"
+            android:layout_height="wrap_content"
+            app:biu_text_color="#28e9ec"
+            app:biu_text_scale="1.5"
+            app:biu_type="flyup"
+            android:maxLines="2"/>
+
+        <Button
+            android:id="@+id/send_message"
+            android:layout_width="90dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/shape"
+            android:text="发送" />
+
+    </LinearLayout>
+
+</LinearLayout>

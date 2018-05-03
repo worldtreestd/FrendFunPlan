@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.legend.ffpmvp.common.view.RubberScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:paddingTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.legend.ffpmvp.common.view.CircleImageView
+            android:id="@+id/user_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:civ_border_width="2dp"
+            app:civ_border_color="@color/light_blue"
+            android:src="@drawable/worldtreestd"/>
+
+        <TextView
+            android:id="@+id/nick_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="用户名"
+            android:textColor="@color/white"
+            android:textSize="30sp"/>
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                style="@style/line_view"/>
+
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/my_circle_tv"
+                style="@style/tv_operating_style"
+                android:background="@drawable/item_selector"
+                android:drawableLeft="@drawable/ic_circle"
+                android:drawablePadding="5dp"
+                android:text="我的圈子"/>
+
+            <View
+                style="@style/line_view"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/backlog_tv"
+                style="@style/tv_operating_style"
+                android:drawableLeft="@drawable/ic_backlog"
+                android:background="@drawable/item_selector"
+                android:drawablePadding="5dp"
+                android:text="待办事项"/>
+
+            <View
+                style="@style/line_view"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/finished_task_tv"
+                style="@style/tv_operating_style"
+                android:drawableLeft="@drawable/ic_foot"
+                android:background="@drawable/item_selector"
+                android:drawablePadding="5dp"
+                android:text="已完任务"/>
+
+            <View
+                style="@style/line_view"/>
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/setting_tv"
+                style="@style/tv_operating_style"
+                android:drawableLeft="@drawable/ic_setting"
+                android:background="@drawable/item_selector"
+                android:drawablePadding="5dp"
+                android:text="设置"/>
+
+            <View
+                style="@style/line_view"/>
+
+            <android.support.v7.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_selector"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:background="@drawable/item_selector"
+                    android:text="退出登录"
+                    android:textSize="16sp"
+                    android:textStyle="bold"/>
+
+                <View
+                    style="@style/line_view"/>
+            </android.support.v7.widget.LinearLayoutCompat>
+        </LinearLayout>
+</LinearLayout>
+
+</com.legend.ffpmvp.common.view.RubberScrollView>

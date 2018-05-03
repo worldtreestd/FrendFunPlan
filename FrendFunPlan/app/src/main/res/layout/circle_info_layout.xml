@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:overScrollMode="never"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/transparency">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="圈子号"
+            android:textColor="#fff"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/circle_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:text="时间像一把无尽刻刀"
+            android:textColor="#fff"
+            android:textSize="15sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:text="创建时间"
+        android:textColor="#fff"
+        android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/create_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:text="时间像一把无尽刻刀"
+            android:textColor="#fff"
+            android:textSize="15sp"/>
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="创建地点"
+            android:textColor="#fff"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/create_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:text="时间像一把无尽刻刀"
+            android:textColor="#fff"
+            android:textSize="15sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="创建人"
+            android:textColor="#fff"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/create_man"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:text="时间像一把无尽刻刀"
+            android:textColor="#fff"
+            android:textSize="15sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:text="圈子初衷"
+            android:textColor="#fff"
+            android:textSize="20sp"/>
+        <TextView
+            android:id="@+id/circle_content_introduce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="10dp"
+            android:text="时间像一把无尽刻刀"
+            android:textColor="#fff"
+            android:textSize="15sp"/>
+    </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.legend.ffpmvp">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name=".common.utils.MyApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_backlog"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:roundIcon="@drawable/ic_backlog"
+        android:screenOrientation="portrait"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".GuideAnimation.GuidePageActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.tauth.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tencent1106491809"/>
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="behind"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
+        <activity android:name=".main.view.MainActivity" />
+        <activity android:name=".plan.view.PlanContentView" />
+        <activity
+            android:name=".circle.search.view.SearchView"
+            android:theme="@style/SearchCenterTheme" />
+        <activity
+            android:name=".circle.view.CircleContentView"
+            android:theme="@style/CircleCenterTheme"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity android:name=".circle.view.CreateCircleView" />
+        <activity android:name=".plan.view.ReleasePlanView" />
+        <activity android:name=".main.view.AboutView"/>
+        <activity android:name=".main.personalcenter.view.MyCircleActivity"/>
+        <activity android:name=".main.personalcenter.view.BackLogActivity"/>
+        <activity android:name=".main.personalcenter.view.FinishedTaskActivity"/>
+        <activity android:name=".main.personalcenter.view.SettingActivity"/>
+
+        <service android:name=".common.utils.PlanNotifyService"></service>
+
+    </application>
+
+</manifest>

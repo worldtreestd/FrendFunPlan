@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.AppCompatTextView android:id="@+id/keyword_tv"
+    android:background="?attr/selectableItemBackground"
+    android:text="keywords"
+    android:textSize="18sp"
+    android:padding="@dimen/dp_10"
+    android:layout_margin="5dp"
+    android:layout_width="wrap_content"
+    android:layout_height="40dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+</android.support.v7.widget.AppCompatTextView>
