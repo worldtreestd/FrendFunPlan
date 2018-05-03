@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="b2d5e14b-cafe-4457-906d-bc4a97cfa153" name="FFPRestful" url="http://120.78.141.59">
+        <fileTransfer host="120.78.141.59" port="22" rootFolder="/usr/local/src/FFPRestful" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
